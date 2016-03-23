@@ -1,0 +1,108 @@
+<?page title="Grid LeaveDetail" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<window id="win_show_message"  style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;" apply="grid_controller.show_message_ctrl">
+	
+	<groupbox mold="3d" closable="false"><button label="Compose" id="btncompose" onClick="show_send_mess_win()"
+						sclass="classname" />
+						
+						<zscript><![CDATA[
+	void show_send_mess_win()
+	{
+		 Window window = (Window)Executions.createComponents(
+                 "send_message.zul", null, null);
+         window.doHighlighted();
+	}
+]]></zscript>
+	<caption label="Messages Received"></caption>
+	
+	<listbox id="list_message" model="@{win_show_message$show_message_ctrl.Messagings1}" mold="paging" pageSize="15">
+		<listhead>
+			<listheader label="Message Id" width="140px" visible="false" />
+			<listheader label="to" visible="false"/>
+			<listheader label="From" />
+			<listheader label="Subject"/>
+			<listheader label="message" visible="false" />
+			<listheader label="Date"/>
+			<listheader label="Time"/>
+			<listheader label="Status"  style="background:#bddbfa;font-family:arial;font-size:12px;font-weight:bold;color:#3d94f6;"/>
+		</listhead>
+		<listitem self="@{each=message}">
+		
+			<listcell label="@{message.message_id}" style="background:#bddbfa;" />
+			<listcell label="@{message.to_user}" />
+			<listcell label="@{message.from_user}" />
+			<listcell label="@{message.subject}"  />
+			
+			<listcell label="@{message.date}" />
+			<listcell label="@{message.time}" />
+			<listcell label="@{message.status}"  style="background:#3d94f6;font-family:arial;font-size:12px;font-weight:bold;color:#ffffff;" />
+		</listitem>
+	</listbox>
+	</groupbox>
+	
+	
+	<style src="css/Buttoncss.css"></style>
+	
+	<window id="win_re_message" title="Read Message" closable="true" minimizable="true" visible="false" 
+		style="font-family:arial;margin-left:auto;margin-right:auto;width:60%;">
+		
+		
+
+		<groupbox mold="3d" closable="false">
+			<caption label="Send message" ></caption>
+			<zscript>
+		
+		<![CDATA[
+	//@IMPORT
+	import org.zkoss.lang.Strings;
+	import org.zkoss.lang.Objects;
+	import java.sql.*;
+	import connection.queryclass;
+	import org.joda.time.*;
+]]><![CDATA[
+	//@DECLARATION
+]]></zscript>
+
+
+			<div>
+				<grid>
+					<columns>
+						<column width="140px"></column>
+						<column></column>
+					</columns>
+
+					<rows>
+						
+						<row>
+							TO :
+							<textbox id="txtto" width="480px" />
+						</row>
+						<row>
+							Subject :
+							<textbox id="txtsubject" width="480px" />
+						</row>
+
+						<row>
+							Message :
+							<textbox id="txtmessage" multiline="true"
+								rows="20" width="100%">
+								<attribute name="value">
+									<![CDATA[ Type your message Here..
+
+									BR]]>
+								</attribute>
+							</textbox>
+						</row>
+
+					</rows>
+				</grid>
+				<hbox pack="center" width="100%">
+					<button label="Reply" id="btnreply"
+						sclass="classname" />
+
+				</hbox>
+			</div>
+		</groupbox>
+	</window>
+</window>

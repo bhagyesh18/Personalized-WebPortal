@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<window title="jasperreport demo" border="normal" height="100%">
+	<zscript>	
+		import jasper_report.*;	
+		Map parameters = new HashMap();
+		
+		
+		
+		demo_datasourse ds=new demo_datasourse();
+			
+	</zscript>
+	<jasperreport src="Cherry_Landscape.jasper"
+		parameters="${parameters}" datasource="${ds}"  />
+</window>

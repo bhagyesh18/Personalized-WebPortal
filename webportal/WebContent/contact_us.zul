@@ -1,0 +1,29 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window  style="font-family:arial;margin-left:auto;margin-right:auto;width:60%;">
+<groupbox mold="3d" closable="true">
+<caption label="Contact us"></caption>
+<hbox><image src="/images/contact/contact.jpg" width="200px"></image>
+<div>
+					<html><![CDATA[
+					               <body style="color:black;background-color:gray;">
+						<h3 style="color:black;">BG ITstream Web solution</h3>
+						<h4  style="color:black;">Gandhinagar :</h4> 
+						<h5  style="color:black;">Plot no :890 , Sector :29 <br>
+						Info City ,Phase :2 <br>
+						Gandhinagar,Gujarat , India:382024 </h5><br>
+					]]></html></div>
+</hbox>
+<html><![CDATA[
+<center  style="color:black;">
+<br>
+<br>
+Now you can Locate us 
+<br>
+<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.in/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=bhagyesh,+Plot+No+305+Sector-22,+Shreyash+Society,&amp;sll=22.416832,71.319661&amp;sspn=6.506737,12.480469&amp;t=h&amp;ie=UTF8&amp;hq=bhagyesh,+Plot+No+305+Sector-22,+Shreyash+Society,&amp;hnear=&amp;cid=7635473892105583540&amp;ll=23.232917,72.65343&amp;spn=0.002366,0.003433&amp;z=18&amp;iwloc=A&amp;output=embed"></iframe><br /><small><a href="https://maps.google.co.in/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=bhagyesh,+Plot+No+305+Sector-22,+Shreyash+Society,&amp;sll=22.416832,71.319661&amp;sspn=6.506737,12.480469&amp;t=h&amp;ie=UTF8&amp;hq=bhagyesh,+Plot+No+305+Sector-22,+Shreyash+Society,&amp;hnear=&amp;cid=7635473892105583540&amp;ll=23.232917,72.65343&amp;spn=0.002366,0.003433&amp;z=18&amp;iwloc=A" style="color:#79bbff;text-align:left">View Larger Map</a></small>
+</center>
+
+]]></html>
+</groupbox>
+</window>
+</zk>

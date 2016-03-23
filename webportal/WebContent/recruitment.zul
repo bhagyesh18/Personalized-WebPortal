@@ -1,0 +1,324 @@
+<zk>
+<div style="margin-left:auto;margin-right:auto;width:60%;"> <image src="/images/careers/slide1.jpg" height="200px" ></image></div>
+<window width="450px" onOK="doOK()"  apply="grid_controller.recruitment_detail_ctrl" style="font-family:arial;margin-left:auto;margin-right:auto;width:60%;">
+
+<groupbox><caption label="Careers  Feed Your Details"></caption>
+	<zscript><![CDATA[
+	   boolean hasZkex = true;
+	   try{
+		   Class.forName("org.zkoss.zkex.Version");
+	   }catch(Exception e){
+		   hasZkex = false;			   
+	   }						    
+	]]></zscript>
+	<html unless="${hasZkex}"><![CDATA[
+	         <h1>Missing zkex.jar</h1>
+	         <p>
+	         You need to have zkex.jar in your WEB-INF/lib to make this sample work well.
+	         For it use chart component.
+	         How to get zkex.jar? Please contact info@zkoss.org
+	         </p>
+	]]></html>
+	
+	<groupbox mold="3d" closable="false" >
+		<caption label="Recruitment Form"/>
+		<zscript>
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+      	import org.joda.time.*;
+      	]]><![CDATA[//@DECLARATION
+		public void doRegister(){
+			String status;
+			DateTime dt=new DateTime(dtDOB.getValue());
+			int year=dt.getYear();
+			String y="Taha";
+			for(int i=0;i<year;i++)
+			{
+				year--;
+				chkgyear.appendItem(y);
+			}
+			alert(y);
+			alert("Success!");
+		}
+		public void doOK(){
+			doRegister();
+		}
+		Constraint pwc = new Constraint() {
+	    	public void validate(Component comp, Object value) throws WrongValueException {
+		       	if (!Objects.equals(txtpwd.getValue(),value)){
+					throw new WrongValueException(comp, "Password doesn't euqal");
+		    	}
+	    	}
+	 	};
+		]]></zscript>
+		<div>
+			<grid>
+				<rows>
+					<row>
+						First Name :
+						<textbox id="txtfname" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Middle Name :
+						<textbox id="txtmname" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Last Name :
+						<textbox id="txtlname" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Mother Name :
+						<textbox id="txtmothername" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Gender :
+						<radiogroup id="rggender">
+							<radio label="Male"/>
+							<radio label="Female"/>
+						</radiogroup>
+					</row>
+					<row>
+						Date Of Birth :
+						<datebox id="dtDOB" width="200px" format="yyyy/MM/dd"  />
+					</row>
+					<row>
+						Password :
+						<textbox id="txtpwd" width="200px"
+							type="password" constraint="no empty"/>
+					</row>
+					<row>
+						Password Again :
+						<textbox id="txtpwd2" width="200px"
+							type="password" constraint="${pwc}"/>
+					</row>
+					<row>
+						Graduation Course :
+						<textbox id="txtgcourse" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Graduation Institute :
+						<textbox id="txtgins" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Graduation Year :
+						<combobox id="chkgyear" width="100px" onOpen="dogYear()">
+						</combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								public void dogYear()
+								{
+									DateTime d=new DateTime(System.currentTimeMillis());
+									DateTime dt=new DateTime(dtDOB.getValue());
+									int year;
+									year=d.getYear();
+									String s;
+									chkgyear.getItems().clear();
+									for(int i=1960;i<year;i++)
+									{
+										s=String.valueOf(year);
+										chkgyear.appendItem(s);
+										year--;
+									}
+								}
+							]]>
+						</zscript>
+					</row>
+					<row>
+						Graduation Percentage :
+						<textbox id="txtgPer" width="200px"/>
+					</row>
+					<row>
+						Post Graduation Course :
+						<textbox id="txtpgcourse" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Post Graduation Institute :
+						<textbox id="txtpgins" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Post Graduation Year :
+						<combobox id="chkpgyear" width="100px" onOpen="dopgYear()"></combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								public void dopgYear()
+								{
+									DateTime d=new DateTime(System.currentTimeMillis());
+									DateTime dt=new DateTime(dtDOB.getValue());
+									int year;
+									year=d.getYear();
+									String s;
+									chkpgyear.getItems().clear();
+									for(int i=1960;i<year;i++)
+									{
+										s=String.valueOf(year);
+										chkpgyear.appendItem(s);
+										year--;
+									}
+								}
+							]]>
+						</zscript>
+					</row>
+					<row>
+						Post Graduation Percentage :
+						<textbox id="txtpgPer" width="200px"/>
+					</row>
+					<row>
+						Under Graduation Course :
+						<textbox id="txtugcourse" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Under Graduation Institute :
+						<textbox id="txtugins" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Under Graduation Year :
+						<combobox id="chkugyear" width="100px" onOpen="dougYear()" ></combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								public void dougYear()
+								{
+									DateTime d=new DateTime(System.currentTimeMillis());
+									DateTime dt=new DateTime(dtDOB.getValue());
+									int year;
+									year=d.getYear();
+									String s;
+									chkugyear.getItems().clear();
+									for(int i=1960;i<year;i++)
+									{
+										s=String.valueOf(year);
+										chkugyear.appendItem(s);
+										year--;
+									}
+								}
+							]]>
+						</zscript>
+					</row>
+					<row>
+						Under Graduation Percentage :
+						<textbox id="txtugPer" width="200px"/>
+					</row>
+					
+					<row>
+						Upload Photo :
+								<groupbox >
+								<caption label="Photo"></caption>
+								JPEG only, 100kb
+								<button label="Upload" upload="true">
+
+ 									<attribute name="onUpload">		
+     								<![CDATA[
+  											import java.io.File;
+  											import org.zkoss.io.Files;
+  											import org.zkoss.util.media.Media;
+  
+  
+  											int FILE_SIZE = 100;
+
+  											String path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+											//alert(path.concat("resume\\"));
+							
+											//alert(path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\",""));
+											String realpath=path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\","");
+											//alert(realpath.concat("resume\\"));
+											//String temp="C:\\Bhagyesh\\Study\\Proects and Practice & Data (BHAVIN-PC)\\personalized web portal\\project_workspace\\ListItemMVC1\\resume\\";
+
+											//alert(temp);
+
+	 										public Media media = event.getMedia();
+	  
+	  										//alert(""+media.getName().toString());
+											String str;
+			
+	  										if(media.getByteData().length>(100*1024))
+	  										{
+												  alert("size is big");
+	  										}
+	  										else
+											{
+	  											str=txtfname.getValue()+"_"+ dtDOB.getText().toString().replaceAll("/","-");
+	  											String recruitment_id=str;
+	  											alert(recruitment_id);										
+	  											// alert("/resume/"+media.getName());
+												Files.copy(new File(realpath.concat("\\webContent\\req_images\\").toString()+recruitment_id+".jpg"), media.getStreamData());
+		  										org.zkoss.image.Image picture = (org.zkoss.image.Image) media;
+		   										img.setContent(picture);
+											}
+	  										alert(str);
+									]]>
+ 
+  							</attribute>
+					</button>
+
+						<image id="img" width="100px"></image>
+						</groupbox>
+						
+						
+					</row>
+					<row>
+						Upload Resume :
+						<button label="Upload" upload="true">
+ <attribute name="onUpload">
+     <![CDATA[
+  import java.io.File;
+  import org.zkoss.io.Files;
+  import org.zkoss.util.media.Media;
+  
+  
+  int FILE_SIZE = 100;
+
+  		String path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+	//alert(path.concat("resume\\"));
+	//alert(path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\",""));
+	String realpath=path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\","");
+	//alert(realpath.concat("resume\\"));
+	//String temp="C:\\Bhagyesh\\Study\\Projects and Practice & Data (BHAVIN-PC)\\personalized web portal\\project_workspace\\ListItemMVC1\\resume\\";
+
+	//alert(temp);
+
+	  Media media = event.getMedia();
+	  
+	  //alert(""+media.getName().toString());
+						
+	  String str1;		
+	  if(media.getByteData().length>(100*1024))
+	  {
+		  alert("size is big");
+		  
+	  }
+	  else
+		{
+		  	str1=txtfname.getValue()+"_"+ dtDOB.getText().toString().replaceAll("/","-");
+			String recruitment_id=str1;
+		  String recruitment_id=str1;
+			alert(recruitment_id);
+		  Files.copy(new File(realpath.concat("\\webContent\\resume\\").toString()+recruitment_id+".pdf"), media.getStreamData());
+		  // alert("/resume/"+media.getName());
+		//  org.zkoss.image.Image picture = (org.zkoss.image.Image) media;
+		  // img.setContent(picture);
+		}
+ ]]>
+ 
+  </attribute>
+</button>
+						
+					</row>
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Register" id="btnregister" sclass="classname"/>
+			</hbox>
+		</div>
+	</groupbox>
+	</groupbox>
+</window>
+
+</zk>

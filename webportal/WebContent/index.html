@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Lof JSliderNews 2.0 - Jquery 1.7.x</title>
+<link rel="stylesheet" type="text/css" href="css/layout.css" />
+<link rel="stylesheet" type="text/css" href="css/style1.css" />
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/jquery.easing.js"></script>
+<script language="javascript" type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript">
+ $(document).ready( function(){	
+		// buttons for next and previous item						 
+		var buttons = { previous:$('#jslidernews1 .button-previous') ,
+						next:$('#jslidernews1 .button-next') };			
+		 $('#jslidernews1').lofJSidernews( { interval : 4000,
+											direction		: 'opacitys',	
+											easing			: 'easeInOutExpo',
+											duration		: 1200,
+											auto		 	: true,
+											maxItemDisplay  : 4,
+											navPosition     : 'horizontal', // horizontal
+											navigatorHeight : 35,
+											navigatorWidth  : 80,
+											mainWidth		: 980,
+											buttons			: buttons } );	
+	});
+</script>
+
+</head>
+<body>  
+<!------------------------------------- THE CONTENT ------------------------------------------------->
+<div id="jslidernews1" class="lof-slidecontent" style="width:100%; height:780px;">
+	<div class="preload"><div></div></div>
+    		 <!-- MAIN CONTENT --> 
+              <div class="main-slider-content" style="width:100%; height:600px;">
+                <ul class="sliders-wrap-inner">
+                    <li>
+                            <img src="images/thumbl_980x340.png" title="Newsflash 2" >           
+                          <div class="slider-description">
+                            <div class="slider-meta"><a target="_parent" title="Newsflash 1" href="#Category-1">/ Newsflash 1 /</a> <i> — Monday, February 15, 2010 12:42</i></div>
+                            <h4>Content of Newsflash 1</h4>
+                            <p>The one thing about a Web site, it always changes! Joomla! makes it easy to add Articles, content,...
+                            <a class="readmore" href="#">Read more </a>
+                            </p>
+                         </div>
+                    </li> 
+                   <li>
+                      <img src="images/thumbl_980x340_002.png" title="Newsflash 1" >           
+                         <div class="slider-description">
+                           <div class="slider-meta"><a target="_parent" title="Newsflash 2" href="#Category-2">/ Newsflash 2 /</a> 	<i> — Monday, February 15, 2010 12:42</i></div>
+                          
+                           
+                         </div>
+                    </li> 
+                   <li>
+                      <img src="images/thumbl_980x340_003.png" title="Newsflash 3" >            
+                        <div class="slider-description">
+                          <div class="slider-meta"><a target="_parent" title="Newsflash 3" href="#Category-3">/ Newsflash 3 /</a> 	<i> — Monday, February 15, 2010 12:42</i></div>
+                           
+                         </div>
+                    </li> 
+                    <li>
+                      <img src="images/thumbl_980x340_004.png" title="Newsflash 5" >            
+                        <div class="slider-description">
+                          <div class="slider-meta"><a target="_parent" title="Newsflash 4" href="#Category-4">/ Newsflash 4 /</a>	<i> — Monday, February 15, 2010 12:42</i></div>
+                           
+                         </div>
+                    </li> 
+                    <li>
+                      <img src="images/thumbl_980x340_005.png" title="Newsflash 5" >            
+                        <div class="slider-description">
+                           <div class="slider-meta"><a target="_parent" title="Newsflash 5" href="#">/ Newsflash 5 /</a>	<i> — Monday, February 15, 2010 12:42</i></div>
+                          
+                         </div>
+                    </li> 
+                    <li>
+            
+                      <img src="images/thumbl_980x340_006.png" title="Newsflash 5" >            
+                        <div class="slider-description">
+                          <div class="slider-meta"><a target="_parent" title="Newsflash 6" href="#">/ Newsflash 6 /</a>	<i> — Monday, February 15, 2010 12:42</i></div>
+                           
+                         </div>
+                    </li> 
+                     <li>
+                      <img src="images/thumbl_980x340_007.png" title="Newsflash 5" >            
+                        <div class="slider-description">
+                         bhagyesh shaileshbhai
+                         </div>
+                    </li> 
+                      <li>
+                      <img src="images/thumbl_980x340_008.png" title="Newsflash 8" >            
+                                                 
+                    </li> 
+                  </ul>  	
+            </div>
+ 		   <!-- END MAIN CONTENT --> 
+           <!-- NAVIGATOR -->
+           	<div class="navigator-content">
+                  <div class="button-next">Next</div>
+                  <div class="navigator-wrapper">
+                        <ul class="navigator-wrap-inner">
+                           <li><img src="images/thumbs/thumbl_980x340.png" /></li>
+                           <li><img src="images/thumbs/thumbl_980x340_002.png" /></li>
+                           <li><img src="images/thumbs/thumbl_980x340_003.png" /></li>
+                           <li><img src="images/thumbs/thumbl_980x340_004.png" /></li>    
+                           <li><img src="images/thumbs/thumbl_980x340_005.png" /></li>
+                           <li><img src="images/thumbs/thumbl_980x340_006.png" /></li>       
+                           <li><img src="images/thumbs/thumbl_980x340_007.png" /></li>       
+                           <li><img src="images/thumbs/thumbl_980x340_008.png" /></li>       		
+                        </ul>
+                  </div>
+                  <div  class="button-previous">Previous</div>
+             </div> 
+          <!----------------- END OF NAVIGATOR --------------------->
+          <!-- BUTTON PLAY-STOP -->
+          <div class="button-control"><span></span></div>
+           <!-- END OF BUTTON PLAY-STOP -->
+          
+ </div> 
+
+
+<!------------------------------------- END OF THE CONTENT ------------------------------------------------->
+ <p> 
+
+</body>
+</html>

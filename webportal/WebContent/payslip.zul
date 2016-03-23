@@ -1,0 +1,123 @@
+<?page title="Salary" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+<style src="css/Buttoncss.css"></style>
+<window id="win_payslip"  closable="true" apply="Salary_Controller.generate_payslip" minimizable="true" style="font-family:arial;margin-left:auto;margin-right:auto;width:90%;">
+	
+	
+	<groupbox mold="3d" closable="false" >
+		<caption label="Payslip Generate "/>
+		
+		<div>
+			<grid>
+				<rows>
+					
+					<row>
+						Month :
+						<combobox id="comboMonth" width="150px" onOpen="doMonth()"  >
+							<comboitem label="January"/>
+							<comboitem label="February"/>
+							<comboitem label="March"/>
+							<comboitem label="April"/>
+							<comboitem label="May"/>
+							<comboitem label="June"/>
+							<comboitem label="July"/>
+							<comboitem label="August"/>
+							<comboitem label="September"/>
+							<comboitem label="October"/>
+							<comboitem label="November"/>
+							<comboitem label="December"/>
+												
+						</combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;							
+								public void doMonth()
+								{
+									DateTime dt=new DateTime(System.currentTimeMillis());
+									int month;
+									month=dt.getMonthOfYear();
+									
+								/*	chkleavetype.getItems().clear();
+									for(int i=0;i<12;i++)
+									{
+										String s=String.valueOf(month);
+										alert(s);
+										chkyear.appendItem(s);
+										month++;
+									} */
+								}
+							]]>
+						</zscript>
+						
+					</row>
+					<row>
+						Year :
+						<combobox id="chkyear" width="150px" onOpen="doYear()"></combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								public void doYear()
+								{
+									DateTime d=new DateTime(System.currentTimeMillis());
+									int year;
+									year=d.getYear();
+									String s;
+									chkyear.getItems().clear();
+									for(int i=1985;i<year;i++)
+									{
+										s=String.valueOf(year);
+										chkyear.appendItem(s);
+										year--;
+									}
+								}
+							]]>
+						</zscript>
+					</row>	
+					
+							
+					</rows>
+			</grid>	
+							
+			<hbox pack="center" width="100%">
+				
+				<button label="Show Salary" id="btnshow" sclass="classname" />
+				<button label="Generate PDF" id="btnpdf" sclass="classname" />
+			</hbox>
+			<listbox  id="listbox_salary" visible="false">
+		<listhead>
+			
+			<listheader label="Salary Id"/>
+			<listheader label="Emp Id"/>
+			<listheader label="Month"/>
+			<listheader label="Year"/>
+			<listheader label="Basic Salary"/>
+			<listheader label="Da"/>
+			<listheader label="HRA"/>
+			<listheader label="Pf"/>
+			<listheader label="Deduction"/>
+			<listheader label="Gross Salary"/>
+			<listheader label="Net Salary"/>
+			
+		</listhead>
+		<listitem  id="listitem_salary" >
+		
+			<listcell id="lc_salary_id" label="@{salary.salary_id}" />
+			<listcell  id="lc_emp_id" label="@{salary.emp_id}" />
+			<listcell  id="lc_month" label="@{salary.month}" />
+			<listcell id="lc_year"  label="@{salary.year}" />
+			<listcell  id="lc_basic_salary" label="@{salary.basic_salary}" />
+			<listcell  id="lc_da" label="@{salary.Da}" />
+			<listcell id="lc_hra"  label="@{salary.HRA}" />
+			<listcell  id="lc_pf" label="@{salary.PF}" />
+			<listcell  id="lc_deduction" label="@{salary.deduction}" />
+			<listcell  id="lc_gross_salary" label="@{salary.Gross_salary}" />
+			<listcell  id="lc_net_salary" label="@{salary.net_salary}" />
+		</listitem>
+	</listbox>
+		</div>
+	</groupbox>
+</window>
+</zk>

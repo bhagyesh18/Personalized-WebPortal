@@ -1,0 +1,134 @@
+<?page title="send message" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+	
+	<window id="win_send_message" title="" closable="true" minimizable="true" apply="conversation.send_message_CTRL"
+		style="font-family:arial;margin-left:auto;margin-right:auto;width:60%;">
+	<style src="css/Buttoncss.css"></style>
+		
+
+		<groupbox mold="3d" closable="false">
+			<caption label="Send message" />
+			<zscript>
+		
+		<![CDATA[
+	//@IMPORT
+	import org.zkoss.lang.Strings;
+	import org.zkoss.lang.Objects;
+	import java.sql.*;
+	import connection.queryclass;
+	import org.joda.time.*;
+]]><![CDATA[
+	//@DECLARATION
+]]></zscript>
+
+
+			<div>
+				<grid>
+					<columns>
+						<column width="140px"></column>
+						<column></column>
+					</columns>
+
+					<rows>
+						<row>
+							User Name :
+							<combobox id="chkusername" width="200px"
+								onOpen="checkCountry()" onSelect="checkCountry1()">
+							</combobox>
+							<zscript><![CDATA[
+	import java.sql.*;
+	import connection.queryclass;
+	String selectuser_name;
+	void checkCountry() {
+		queryclass obj = new queryclass();
+		String str1 = "SELECT * FROM user_master";
+		try {
+			ResultSet rs = obj.selectquery(str1);
+			chkusername.getItems().clear();
+			while (rs.next()) {
+				chkusername.appendItem(rs.getString("username"));
+			}
+		} catch (Exception e) {
+		}
+	}
+	void checkCountry1() {
+		selectuser_name = chkusername.getRawValue().toString();
+		checkState(selectuser_name);
+		checkState(selectuser_name);
+
+	}
+	void checkState(String selectuser_name) {
+
+		queryclass obj = new queryclass();
+		ResultSet rs = null;
+		ResultSet rs1 = null;
+
+		try {
+
+			String getempid = "select e.emp_id from employee e,user_master  u  where e.user_id=u.user_id and u.username='"
+					+ selectuser_name + "'";
+
+			rs = obj.selectquery(getempid);
+			rs.next();
+			String str1 = "select first_name,last_name from employee where emp_id='"
+					+ rs.getString("emp_id") + "'";
+			rs = obj.selectquery(str1);
+
+			while (rs.next()) {
+
+				String first = rs.getString("first_name");
+				String lname = (rs.getString("last_name"));
+
+				txt_emp_name.setValue(first + " " + lname);
+				txtto.setValue(selectuser_name);
+
+			}
+		} catch (Exception e) {
+		}
+	}
+	void doclose()
+	{
+		win_send_message.detach();
+		
+	}
+	
+	
+]]></zscript>
+						</row>
+						<row>
+							Employee Name :
+							<label id="txt_emp_name"></label>
+						</row>
+
+
+						<row>
+							TO :
+							<textbox id="txtto" width="480px" />
+						</row>
+						<row>
+							Subject :
+							<textbox id="txtsubject" width="480px" />
+						</row>
+
+						<row>
+							Message :
+							<textbox id="txtmessage" multiline="true"
+								rows="20" width="100%">
+								
+							</textbox>
+						</row>
+
+					</rows>
+				</grid>
+				<hbox pack="center" width="100%">
+					<button label="Send" id="btnsend"
+						sclass="classname" />
+	<button label="Cancel" id="btncancel"
+						sclass="classname" onClick="doclose()" />
+
+				</hbox>
+			</div>
+		</groupbox>
+	</window>
+</zk>

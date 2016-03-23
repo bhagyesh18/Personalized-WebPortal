@@ -1,0 +1,155 @@
+<?page title="Max Leave" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Max_Leave" border="normal" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+	<zscript><![CDATA[
+	   boolean hasZkex = true;
+	   try{
+		   Class.forName("org.zkoss.zkex.Version");
+	   }catch(Exception e){
+		   hasZkex = false;			   
+	   }						    
+	]]></zscript>
+	<html unless="${hasZkex}"><![CDATA[
+	         <h1>Missing zkex.jar</h1>
+	         <p>
+	         You need to have zkex.jar in your WEB-INF/lib to make this sample work well.
+	         For it use chart component.
+	         How to get zkex.jar? Please contact info@zkoss.org
+	         </p>
+	]]></html>
+	
+	<groupbox mold="3d" closable="false" >
+		<caption label="Max Leave Form"/>
+		<zscript>
+		
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+        import org.joda.time.*;
+      	]]><![CDATA[//@DECLARATION
+      	  		
+            public void doSubmit(){
+      			String getLeavetypeId;
+      			String getEmpDesigId;
+      			String strLeaveType=chkleavetype.getValue();
+      			String strEmpDesig=chkempd.getValue();
+         		String maxLeave=txtmleave.getValue();
+      			try
+				{
+					queryclass cn=new queryclass();
+					ResultSet rs=null;
+					
+					String strEmpDesign="select emp_designation_id from employee_designation where emp_designation='"+strEmpDesig+"'";
+					rs=cn.selectquery(strEmpDesign);
+					rs.next();
+					getEmpDesigId=rs.getString("emp_designation_id");
+					
+					String str="select leavetype_id from leave_master where leavetype='"+strLeaveType+"'";
+					rs=cn.selectquery(str);
+					rs.next();
+					getLeavetypeId=rs.getString("leavetype_id");
+				
+					String st1="select maxleave_id from max_leave";
+					rs=cn.selectquery(st1);
+					String lastvalue;
+					if(rs.last())
+					{
+						lastvalue=rs.getString("maxleave_id");
+					}
+					alert(lastvalue+" Last Value ..");
+					int temp=Integer.parseInt(lastvalue);
+					temp++;
+					alert(temp);
+					String strInsert="INSERT INTO `webportal`.`max_leave` (`maxleave_id`, `emp_designation_id`, `leavetype`, `maxleave`) VALUES ("+temp+", '"+getEmpDesigId+"', '"+strLeaveType+"', '"+maxLeave+"')";
+					alert(strInsert);
+					cn.insertquery(strInsert);
+					alert("succescc..");
+			}
+			catch(Exception e)
+			{
+			}
+			
+				//	String strStartDate=dtLeavesdate.getValue().toString();
+		//	String strEndDate=dtLeaveedate.getValue().toString();
+		/*	
+			alert(getLeavetypeId);
+			alert(strLeavePermission);
+			alert(startdate);
+			alert(enddate);
+			alert(diffdays);
+		*/
+		}
+		public void doOK(){
+			doSubmit();
+		}
+		]]></zscript>
+		<div>
+			<grid>
+				<rows>
+					<row>
+						Employee Designation :
+						<combobox id="chkempd" width="200px" onOpen="checkempdesig()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                
+						  void checkempdesig () {
+							  	queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM employee_designation";
+			         			rs=  obj.selectquery(str1);
+			         			chkempd.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkempd.appendItem(rs.getString("emp_designation"));
+	               				}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						Leave Type :
+						<combobox id="chkleavetype" width="200px" onOpen="checkLeaveType()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;;
+		                  
+						  void checkLeaveType () {
+						  queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM leave_master";
+			         			rs=  obj.selectquery(str1);
+			         			chkleavetype.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkleavetype.appendItem(rs.getString("leavetype"));
+	            	           	}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						Max Leave :
+						<textbox id="txtmleave" width="200px" constraint="no empty"/>
+					</row>				
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Submit" onClick="doSubmit()"/>
+			</hbox>
+		</div>
+	</groupbox>
+</window>
+</zk>

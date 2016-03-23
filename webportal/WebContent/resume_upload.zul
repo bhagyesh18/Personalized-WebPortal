@@ -1,0 +1,51 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<window>
+<button label="Upload" upload="true">
+ <attribute name="onUpload">
+     <![CDATA[
+  import java.io.File;
+  import org.zkoss.io.Files;
+  import org.zkoss.util.media.Media;
+  
+  
+  int FILE_SIZE = 100;
+
+  		String path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+	//alert(path.concat("resume\\"));
+	//alert(path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\",""));
+	String realpath=path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\","");
+	//alert(realpath.concat("resume\\"));
+	//String temp="C:\\Bhagyesh\\Study\\Projects and Practice & Data (BHAVIN-PC)\\personalized web portal\\project_workspace\\ListItemMVC1\\resume\\";
+
+	//alert(temp);
+
+	  Media media = event.getMedia();
+	  
+	  //alert(""+media.getName().toString());
+						
+			
+	  if(media.getByteData().length>(100*1024))
+	  {
+		  alert("size is big");
+		  
+	  }
+	  else
+		{
+		  Files.copy(new File(realpath.concat("\\webContent\\resume\\").toString()+media.getName()), media.getStreamData());
+		 // alert("/resume/"+media.getName());
+		//  org.zkoss.image.Image picture = (org.zkoss.image.Image) media;
+		  // img.setContent(picture);
+		 
+		}
+	 
+	
+	
+ ]]>
+ 
+  </attribute>
+</button>
+
+<image id="img"></image>
+
+
+</window>

@@ -1,0 +1,37 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<window title="new page title" border="normal" width="250px">
+	<zscript>
+		<![CDATA[
+			import connection.*;
+			import java.sql.*;
+			ResultSet rs;
+			queryclass q1=new queryclass();
+			rs=q1.selectquery("select * from country");
+			List countrys=new ArrayList();
+			while(rs.next())
+			{
+				Country cn=new Country();
+				cn.setCountryId(rs.getString("country_id"));
+				cn.setCountryName(rs.getString("country_name"));
+				countrys.add(cn);
+			}
+		]]>
+	</zscript>
+	
+	<listbox model="@{countrys}" mold="paging" pageSize="12">
+		<listhead>
+			<listheader label="Country Id" width="100px"/>
+			<listheader label="Country Name" width="100px"/>
+		</listhead>
+		<listitem self="@{each='Country'}">
+			<listcell>
+				<label value="@{Country.countryId}"/>
+			</listcell>
+			<listcell>
+				<label value="@{Country.countryName}"/>
+			</listcell>
+		</listitem>
+	</listbox>
+</window>

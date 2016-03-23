@@ -1,0 +1,67 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<tablelayout columns="2" width="800px"  
+		style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+		<tablechildren >
+			<window id="win_notice">
+				<label value="Notice :"></label>
+
+			</window>
+		</tablechildren>
+
+		<tablechildren>
+			<window id="win_note">
+
+			</window>
+		</tablechildren>
+
+		<tablechildren >
+			<window id="win_Leave_status">
+				<hbox>
+					<image
+						src="/images/user_default_page/leave_gig.gif" width="20px" >
+					</image>
+					<image
+						src="/images/user_default_page/leave_status.png" width="60px" >
+					</image>
+				</hbox>
+			</window>
+		</tablechildren>
+
+
+		<tablechildren>
+			<window id="win_Email">
+				<hbox>
+					<image
+						src="/images/user_default_page/mail_gif.gif" width="30px">
+					</image>
+					<image src="/images/user_default_page/email.png" width="60px"></image>
+				</hbox>
+			</window>
+		</tablechildren>
+
+		<tablechildren>
+			<window id="win_Salary">
+				<hbox>
+					<image
+						src="/images/user_default_page/salary_gif.gif" width="30px">
+					</image>
+					<image src="/images/user_default_page/salary.png" width="60px"></image>
+				</hbox>
+
+			</window>
+		</tablechildren>
+
+		<tablechildren>
+
+			<window id="win_Reporing">
+			<hbox>
+			<image src="/images/user_default_page/salary_gif.gif" width="30px"></image>
+				<image src="/images/user_default_page/reporting.png" width="60px"></image>
+            </hbox>
+
+			</window>
+		</tablechildren>
+
+	</tablelayout>
+</zk>

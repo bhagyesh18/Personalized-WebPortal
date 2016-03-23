@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<zk>
+    <window id='myWin' 
+        apply="grid_controller.AddLinkDoubleClickEventCtrl">
+        <style src="css/Buttoncss.css"></style>
+        <groupbox mold="3d" closable="false">
+        <caption label="Add New Menu Link"> </caption>
+      <listbox id="listaddLink"
+            model="@{myWin$AddLinkDoubleClickEventCtrl.AddLinks1}" mold="paging" pageSize="5">
+            <listhead sizable="true">
+                <listheader label="Link Name" width="150px" />
+                <listheader label="Link Url" width="150px" />
+                <listheader label="Link Description" width="150px" />
+                <listheader label="Link Page" width="150px" />
+                <listheader label="Link Position" width="150px" />
+                <listheader label="Link Status" width="150px" />
+                
+            </listhead>
+            <listitem self="@{each=al}">
+                <listcell label="@{al.link_name}" />
+                <listcell label="@{al.link_url}" />
+                <listcell label="@{al.link_description}" />
+                <listcell label="@{al.link_page}" />
+                <listcell label="@{al.link_position}" />
+                <listcell label="@{al.link_status}" />
+            </listitem>
+      </listbox>
+        <div>
+			<grid >
+				<rows>
+					<row>
+						Link Name :
+							<textbox id="txtaln" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Link Url :
+							<textbox id="txtalu" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Link Description :
+						<textbox id="txtald" width="200px" constraint="no empty"/>
+					</row>				
+					<row>
+						Link Page :
+						<textbox id="txtalp" width="200px" constraint="no empty"/>
+					</row>				
+					<row>
+						Link Position :
+						<textbox id="txtalpo" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						User Role :
+						<combobox id="chkurole" width="200px" onOpen="checkUserRole()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;;
+		                  
+						  void checkUserRole () {
+						  queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM user_role";
+			         			rs=  obj.selectquery(str1);
+			         			chkurole.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkurole.appendItem(rs.getString("user_role"));
+	            	           	}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>				
+					<row>
+						Link Status :
+						<radiogroup id="rgls">
+							<radio value="Active"/>Active
+							<radio value="InActive"/>In Active
+						</radiogroup>
+					</row>				
+					
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Insert Link" sclass="classname" id="btninsert" />
+				<button label="Update Link" id="btnupdate"  sclass="classname"/>
+			</hbox>
+		</div>
+		</groupbox>
+    </window>
+</zk>

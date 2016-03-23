@@ -1,0 +1,111 @@
+<?page title="Grid MaxLeave" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<zk>
+<style src="css/Buttoncss.css"></style>
+<window id="gridmaxLeave"  width="40%" apply="grid_controller.max_leave_details_ctrl" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+<groupbox mold="3d" closable="false"><style src="css/Buttoncss.css"></style>
+<caption label="Max Leaves Details Form "></caption>
+	
+	<groupbox mold="3d" closable="false" >
+		<caption label="Manage Maximum Leaves"/>
+		<zscript>
+		
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+        import org.joda.time.*;
+      	]]><![CDATA[//@DECLARATION
+      	  		
+            
+		public void doOK(){
+			doSubmit();
+		}
+		]]></zscript>
+		
+		
+		<div>
+			<grid >
+				<rows>
+					<row>
+						Employee Designation :
+						<combobox id="chkempd" width="200px" onOpen="checkempdesig()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                
+						  void checkempdesig () {
+							  	queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM employee_designation";
+			         			rs=  obj.selectquery(str1);
+			         			chkempd.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkempd.appendItem(rs.getString("emp_designation"));
+	               				}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						Leave Type :
+						<combobox id="chkleavetype" width="200px" onOpen="checkLeaveType()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;;
+		                  
+						  void checkLeaveType () {
+						  queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM leave_master";
+			         			rs=  obj.selectquery(str1);
+			         			chkleavetype.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkleavetype.appendItem(rs.getString("leavetype"));
+	            	           	}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						Max Leave :
+						<textbox id="txtmleave" width="200px" constraint="no empty" />
+					</row>				
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Update Leaves" id="btnupdate" sclass="classname"/>
+			</hbox>
+		</div>
+	</groupbox>
+<html> <h6>Double click On any Row to update data</h6></html>
+<listbox id="listbox_max_leave" model="@{gridmaxLeave$max_leave_details_ctrl.Max_leaves1}" mold="paging" pageSize="8">
+	<listhead>
+		<listheader label="Emp_Designation" width="150px"/>
+		<listheader label="LeaveType" width="150px"/>
+		<listheader label="Max Leave" width="150px"/>
+	</listhead>
+	<listitem self="@{each=max_leave}">
+		<listcell label="@{max_leave.empDesignationName}"/>
+		<listcell label="@{max_leave.leaveType}"/>
+		<listcell label="@{max_leave.maxLeave}"/>
+	</listitem>
+</listbox>
+	
+
+</groupbox>
+</window>
+</zk>

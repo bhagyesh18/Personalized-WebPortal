@@ -1,0 +1,165 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+<window id="win_emp_pro_report" apply="report_employee.report_emp_leave_balance"  closable="true" minimizable="true" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+	
+<style src="css/Buttoncss.css"></style><zscript><![CDATA[
+	   boolean hasZkex = true;
+	   try{
+		   Class.forName("org.zkoss.zkex.Version");
+	   }catch(Exception e){
+		   hasZkex = false;			   
+	   }						    
+	]]></zscript>
+	<html unless="${hasZkex}"><![CDATA[
+	         <h1>Missing zkex.jar</h1>
+	         <p>
+	         You need to have zkex.jar in your WEB-INF/lib to make this sample work well.
+	         For it use chart component.
+	         How to get zkex.jar? Please contact info@zkoss.org
+	         </p>
+	]]></html>
+	
+	<groupbox mold="3d" closable="false" >
+		<caption label="Report for employee Leave Balance"/>
+		<zscript>
+		
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+        import org.joda.time.*;
+      	]]><![CDATA[//@DECLARATION
+      	  		
+          public void docheck()
+      	{
+        	  Window window = (Window)Executions.createComponents(
+                      "Paid_grid_salary.zul", null, null);
+              window.doHighlighted();
+      	}
+		  
+      public void doclose()
+      {
+    	  win_emp_pro_report.detach();  
+      }
+		public void doOK(){
+			doSubmit();
+		}
+		]]></zscript>
+		<div>
+			<grid>
+				<rows>
+					
+					
+					<row>
+						Employee Id:
+						<hbox>
+						<combobox id="chkemp_id" width="150px" onCreate="doemp_id_based()" ></combobox>
+						
+						<checkbox label="for selective Employee" id="checkbox_emp" checked="true" onCheck="docheckbox_emp_action()" ></checkbox></hbox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								
+								public void docheckbox_emp_action()
+								{
+									if(chkemp_id.isDisabled())
+									{
+										
+										chkemp_id.setDisabled(false);
+										
+										
+									}
+									else
+									{
+										chkemp_id.setDisabled(true);
+										
+									}
+								}
+								public void doemp_id_based()
+								{
+									ResultSet rs3;
+									queryclass desi_query=new queryclass();
+									rs3=desi_query.selectquery("select * from employee");
+									chkemp_id.getItems().clear();
+									while(rs3.next())
+									{
+										chkemp_id.appendItem(rs3.getString("emp_id"));
+									}
+								}
+							]]>
+						</zscript>
+					</row>		
+					<row>
+						Employee Name :
+						<hbox>
+						<combobox id="chkemp_name" width="150px" onCreate="doemp_name_based()" disabled="true"></combobox>
+						
+						<checkbox label="for selective Employee Name" id="checkbox_emp_name"  onCheck="docheckbox_emp_name_action()" ></checkbox></hbox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								
+								public void docheckbox_emp_name_action()
+								{
+									if(chkemp_name.isDisabled())
+									{
+										chkemp_name.setDisabled(false);
+										
+									}
+									else
+									{
+										chkemp_name.setDisabled(true);
+									}
+								}
+								public void doemp_name_based()
+								{
+									ResultSet rs3;
+									queryclass desi_query=new queryclass();
+									rs3=desi_query.selectquery("select * from employee");
+									chkemp_name.getItems().clear();
+									while(rs3.next())
+									{
+										chkemp_name.appendItem(rs3.getString("first_name")+" "+rs3.getString("last_name"));
+									}
+								}
+							]]>
+						</zscript>
+					</row>	
+					<row>
+						Year :
+						<combobox id="chkyear" width="150px" onOpen="doYear()"></combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								public void doYear()
+								{
+									DateTime d=new DateTime(System.currentTimeMillis());
+									int year;
+									year=d.getYear();
+									String s;
+									chkyear.getItems().clear();
+									for(int i=1985;i<year;i++)
+									{
+										s=String.valueOf(year);
+										chkyear.appendItem(s);
+										year--;
+									}
+								}
+							]]>
+						</zscript>
+					</row>				
+					</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Generate Report" id="btnreport" sclass="classname" />
+				<button label="close" id="btnclose" onClick="doclose()" sclass="classname" />
+			</hbox>
+		</div>
+	</groupbox>
+</window>
+</zk>

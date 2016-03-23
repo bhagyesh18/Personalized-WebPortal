@@ -1,0 +1,6 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="email_win" apply="email.email_sender" title="new page title" border="normal">
+New Content Here!
+</window>
+</zk>

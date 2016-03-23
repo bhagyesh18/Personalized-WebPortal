@@ -1,0 +1,130 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="win_webpart" apply="webpart_package.webpart_ctrl"> 
+	<style src="css/Buttoncss.css"></style>
+	
+	<button id="btn_edit" label="Edit" image="/images/edit_webpart/edit.png" sclass="classname" visible="false" onClick="show_win_edit()"></button>
+	<zscript><![CDATA[
+	import org.zkoss.zul.Window;
+	import org.zkoss.zk.ui.Executions;
+	void show_win_edit() {
+
+		Window window = (Window) Executions.createComponents(
+				"edit_webpart.zul", null, null);
+		window.doHighlighted();
+	}
+]]></zscript>
+	<div id="contentDiv" style="font-family:arial;color:#B8D335">
+	
+		<portallayout id="myptl">
+			
+			
+			<portalchildren width="30%">
+				<panel id="twiter_plugin" height="300px" visible="false"
+					title=" Twitter " border="normal" collapsible="true"
+					closable="true" maximizable="true" style="margin-bottom:10px">
+										<panelchildren>
+											<html>
+												<a class="twitter-timeline"
+													href="https://twitter.com/BT_ITStream"
+													data-widget-id="273335251131056128">
+													Tweets by @BT_ITStream
+												</a>
+												<script>
+													!function(d,s,id){var
+													js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+												</script>
+											</html>
+										</panelchildren>
+				</panel>
+						<panel id="wiki_plugin" height="300px" title="Wikipedia news"
+							border="normal" collapsible="true" closable="true" visible="false"
+							maximizable="true" style="margin-bottom:10px">
+											<panelchildren>
+												<iframe width="100%" height="100%"
+													src="http://www.gmodules.com/ig/ifr?url=http://www.therandomhomepage.com/google/gadgets/randomwiki/RandomWikiModule.xml&amp;up_moduletitle=Random%20Wikipedia%20Article&amp;up_language=en&amp;synd=open&amp;w=320&amp;h=350&amp;title=__UP_moduletitle__&amp;lang=en&amp;country=ALL&amp;border=%23ffffff|3px%2C1px+solid+%23999999&amp;source=http%3A%2F%2Fwww.gmodules.com%2Fig%2Fcreator%3Fsynd%3Dopen%26url%3Dhttp%253A%2F%2Fwww.therandomhomepage.com%2Fgoogle%2Fgadgets%2Frandomwiki%2FRandomWikiModule.xml%26pt%3D%2526context%253Dd%2526type%253Dgadgets%2526synd%253Dig%2526lang%253Den%2526.lang%253Den%2526country%253Dau%2526.country%253Dau%2526start%253D0%2526num%253D1%2526target%253Dx5%2526objs%253D0KPR%252CyN%26sn%3Dx5%26lang%3Den" />
+											</panelchildren>
+				</panel>
+				<panel id="tool_plugin" height="200px" title="Google Tools"
+								border="normal" collapsible="true" closable="true" visible="false"
+								maximizable="true" style="margin-bottom:10px">
+									<panelchildren>
+										<iframe width="100%" height="100%"
+											src="http://3.gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/toolspromo.xml&amp;nocache=0&amp;lang=en&amp;country=us&amp;.lang=en&amp;.country=us&amp;synd=ig&amp;mid=3&amp;ifpctok=5090480830848781425&amp;parent=http://www.google.com&amp;extern_js=/extern_js/f/CgJlbhICdXMrMAs4ACwrMBA4ACwrMBI4ACwrMBM4ACw/zYieI_ujwr4.js" />
+									</panelchildren>
+				</panel>
+
+			</portalchildren>
+
+
+
+			<portalchildren width="30%">
+				<panel id="linked_in_plugin" height="300px"
+					title="Linked In" border="normal" collapsible="true" closable="true" visible="false"
+					maximizable="true" style="margin-bottom:10px">
+					<panelchildren>
+						<html>
+							<script src="//platform.linkedin.com/in.js"
+								type="text/javascript">
+							</script>
+							<script type="IN/MemberProfile"
+								data-id="http://www.linkedin.com/pub/bt-itstream-solution/60/b45/834"
+								data-format="inline">
+							</script>
+						</html>
+					</panelchildren>
+				</panel>
+				
+				<panel id="clock_plugin" height="250px" title="LabPixies Clock"
+					border="normal" collapsible="true" closable="true" visible="false"
+					maximizable="true" style="margin-bottom:10px">
+					<panelchildren>
+						<iframe width="100%" height="100%"
+							src="http://ig.gmodules.com/gadgets/ifr?url=http://www.labpixies.com/campaigns/clock/mini_clock.xml&amp;nocache=0&amp;up_skin_id=&amp;upt_skin_id=hidden&amp;lang=en&amp;country=us&amp;.lang=en&amp;.country=us&amp;synd=ig&amp;mid=34&amp;ifpctok=-3234052241260630457&amp;parent=http://www.google.com&amp;extern_js=/extern_js/f/CgJlbhICdXMrMBI4ACwrMBM4ACw/v3vgcgA0x8g.js" />
+					</panelchildren>
+				</panel>
+
+			</portalchildren>
+			
+			
+			
+			<portalchildren style="padding: 5px" width="40%">
+				<panel id="facebook_comment_plugin" height="400px"
+					title="Facebook Page" border="normal" collapsible="true" visible="false"
+					closable="true" maximizable="true" style="margin-bottom:10px">
+											<panelchildren>
+						
+												<html>
+													<div id="fb-root"></div>
+													<script>
+														(function(d, s, id) { var js, fjs =
+														d.getElementsByTagName(s)[0]; if
+														(d.getElementById(id)) return; js =
+														d.createElement(s); js.id = id; js.src =
+														"//connect.facebook.net/en_GB/all.js#xfbml=1";
+														fjs.parentNode.insertBefore(js, fjs);
+														}(document, 'script',
+														'facebook-jssdk'));
+													</script>
+													<div class="fb-comments"
+														data-href="http://www.facebook.com/pages/BT-ITStream-Soltuion/269999226455868"
+														data-num-posts="2" data-width="470">
+													</div>
+												</html>
+											</panelchildren>
+				</panel>
+				<panel id="todo_plugin" height="300px" title="ToDo Notes"
+					border="normal" collapsible="true" closable="true" visible="false"
+					maximizable="true" style="margin-bottom:10px">
+										<panelchildren>
+											<iframe width="100%" height="100%"
+												src="http://www-igprev-opensocial.googleusercontent.com/gadgets/ifr?exp_rpc_js=1&amp;exp_track_js=1&amp;url=http%3A%2F%2Fwww.labpixies.com%2Fcampaigns%2Ftodo%2Ftodo.xml&amp;container=igprev&amp;view=preview&amp;lang=en&amp;country=TW&amp;sanitize=0&amp;v=320983f4a0c1ed26&amp;parent=http://www.google.com.tw&amp;libs=core:core.io:core.iglegacy:auth-refresh&amp;is_signedin=1&amp;synd=igprev&amp;view=preview#st=&amp;gadgetId=104349211979182719780&amp;gadgetOwner=100905887646364935951&amp;gadgetViewer=100905887646364935951&amp;rpctoken=-1064182856&amp;ifpctok=-1064182856&amp;up_sd=&amp;up_todos=&amp;up_saved_tasks=&amp;up_wasSocial=0&amp;up_migration_flag=false" />
+										</panelchildren>
+				</panel>
+			</portalchildren>
+
+		</portallayout>
+	</div>
+
+</window>
+</zk>

@@ -1,0 +1,248 @@
+<?page title="Salary" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+<style src="css/Buttoncss.css"></style>
+<window id="win_salary" apply="Salary_Controller.manage_salary_ctrl"  closable="true" minimizable="true" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+	<zscript><![CDATA[
+	   boolean hasZkex = true;
+	   try{
+		   Class.forName("org.zkoss.zkex.Version");
+	   }catch(Exception e){
+		   hasZkex = false;			   
+	   }						    
+	]]></zscript>
+	<html unless="${hasZkex}"><![CDATA[
+	         <h1>Missing zkex.jar</h1>
+	         <p>
+	         You need to have zkex.jar in your WEB-INF/lib to make this sample work well.
+	         For it use chart component.
+	         How to get zkex.jar? Please contact info@zkoss.org
+	         </p>
+	]]></html>
+	
+	<groupbox mold="3d" closable="false" >
+		<caption label="Salary Form"/>
+		<zscript>
+		
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+        import org.joda.time.*;
+      	]]><![CDATA[//@DECLARATION
+      	  		
+          public void docheck()
+      	{
+        	  Window window = (Window)Executions.createComponents(
+                      "Paid_grid_salary.zul", null, null);
+              window.doHighlighted();
+      	}
+		  
+		public void doOK(){
+			doSubmit();
+		}
+		]]></zscript>
+		<div>
+			<grid>
+				<rows>
+					
+					<row>
+						Month :
+						<combobox id="comboMonth" width="150px" onOpen="doMonth()"  >
+							<comboitem label="January"/>
+							<comboitem label="February"/>
+							<comboitem label="March"/>
+							<comboitem label="April"/>
+							<comboitem label="May"/>
+							<comboitem label="June"/>
+							<comboitem label="July"/>
+							<comboitem label="August"/>
+							<comboitem label="September"/>
+							<comboitem label="October"/>
+							<comboitem label="November"/>
+							<comboitem label="December"/>
+												
+						</combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;							
+								public void doMonth()
+								{
+									DateTime dt=new DateTime(System.currentTimeMillis());
+									int month;
+									month=dt.getMonthOfYear();
+									
+								/*	chkleavetype.getItems().clear();
+									for(int i=0;i<12;i++)
+									{
+										String s=String.valueOf(month);
+										alert(s);
+										chkyear.appendItem(s);
+										month++;
+									} */
+								}
+							]]>
+						</zscript>
+						
+					</row>
+					<row>
+						Year :
+						<combobox id="chkyear" width="150px" onOpen="doYear()"></combobox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								public void doYear()
+								{
+									DateTime d=new DateTime(System.currentTimeMillis());
+									int year;
+									year=d.getYear();
+									String s;
+									chkyear.getItems().clear();
+									for(int i=1985;i<year;i++)
+									{
+										s=String.valueOf(year);
+										chkyear.appendItem(s);
+										year--;
+									}
+								}
+							]]>
+						</zscript>
+					</row>	
+					<row>
+						Designation :
+						<hbox>
+						<combobox id="chkdesig" width="150px" onCreate="dodesignation()" disabled="true"></combobox>
+						<checkbox label="for selective designation" id="checkbox_desi"  onCheck="docheckbox_action()" ></checkbox></hbox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								
+								public void docheckbox_action()
+								{
+									if(chkdesig.isDisabled())
+									{
+										chkdesig.setDisabled(false);
+										
+									}
+									else
+									{
+										chkdesig.setDisabled(true);
+										
+									}
+								}
+								
+								public void dodesignation()
+								{
+									try{
+										
+									
+									ResultSet rs4;
+									queryclass desi_query1=new queryclass();
+									rs4=desi_query1.selectquery("SELECT * FROM webportal.employee_designation;");
+									chkdesig.getItems().clear();
+									while(rs4.next())
+									{
+										chkdesig.appendItem(rs4.getString("emp_designation"));
+									}
+									}
+									catch(Exception e)
+									{
+										alert(e.getMessage());
+										
+									}
+								}
+							]]>
+						</zscript>
+					</row>			
+					
+					<row>
+						Employee Id:
+						<hbox>
+						<combobox id="chkemp_id" width="150px" onCreate="doemp_id_based()" disabled="true"></combobox>
+						
+						<checkbox label="for selective Employee" id="checkbox_emp"  onCheck="docheckbox_emp_action()" ></checkbox></hbox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								
+								public void docheckbox_emp_action()
+								{
+									if(chkemp_id.isDisabled())
+									{
+										
+										chkemp_id.setDisabled(false);
+										
+										
+									}
+									else
+									{
+										chkemp_id.setDisabled(true);
+										
+									}
+								}
+								public void doemp_id_based()
+								{
+									ResultSet rs3;
+									queryclass desi_query=new queryclass();
+									rs3=desi_query.selectquery("select * from employee");
+									chkemp_id.getItems().clear();
+									while(rs3.next())
+									{
+										chkemp_id.appendItem(rs3.getString("emp_id"));
+									}
+								}
+							]]>
+						</zscript>
+					</row>		
+					<row>
+						Employee Name :
+						<hbox>
+						<combobox id="chkemp_name" width="150px" onCreate="doemp_name_based()" disabled="true"></combobox>
+						
+						<checkbox label="for selective Employee Name" id="checkbox_emp_name"  onCheck="docheckbox_emp_name_action()" ></checkbox></hbox>
+						<zscript>
+							<![CDATA[
+								import org.joda.time.*;
+								import java.sql.*;
+								
+								public void docheckbox_emp_name_action()
+								{
+									if(chkemp_name.isDisabled())
+									{
+										chkemp_name.setDisabled(false);
+										
+									}
+									else
+									{
+										chkemp_name.setDisabled(true);
+									}
+								}
+								public void doemp_name_based()
+								{
+									ResultSet rs3;
+									queryclass desi_query=new queryclass();
+									rs3=desi_query.selectquery("select * from employee");
+									chkemp_name.getItems().clear();
+									while(rs3.next())
+									{
+										chkemp_name.appendItem(rs3.getString("first_name")+" "+rs3.getString("last_name"));
+									}
+								}
+							]]>
+						</zscript>
+					</row>				
+					</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Pay Salary" id="btnpay" sclass="classname" />
+				<button label="Check Salary Details" id="btncheck" sclass="classname" onClick="docheck()" />
+			</hbox>
+		</div>
+	</groupbox>
+</window>
+</zk>

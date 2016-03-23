@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<zk>
+    <window id='myWin'
+        apply="grid_controller.SubmitReportInsert" style="font-family:arial;margin-left:auto;margin-right:auto;width:50%;">
+        <groupbox mold="3d" closable="false">
+        <caption label="Submit Your Daily Reports Here"></caption>
+        <style src="css/Buttoncss.css"></style> 
+	    <div>
+			<grid >
+				<rows>
+					<row>
+						Work Description :
+							<textbox rows="9" cols="20" id="txtwd" width="200px" constraint="no empty"/>
+					</row>		
+				</rows>
+			</grid>
+			<hbox pack="center" width="100%">
+				<button label="Submit Report" id="btnsubmit" sclass="classname"/>
+			</hbox>
+		</div>
+    </groupbox></window>
+</zk>      

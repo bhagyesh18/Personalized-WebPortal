@@ -1,0 +1,8 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window  id="winuser" title="new page title" border="normal">
+	<vlayout id="menu" apply="link.user_role_link1">
+			</vlayout>
+			
+</window>
+</zk>

@@ -1,0 +1,47 @@
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+
+<window title="new page title" border="normal">
+<zscript>
+	<![CDATA[
+		class Country
+		{
+			private String countryId;
+			private String countryName;
+			
+			public Country(String ci,String cn)
+			{
+				countryId=ci;
+				countryName=cn;
+			}
+			
+			public String getCountryId()
+			{
+				return countryId;
+			}
+			
+			public String getCountryName()
+			{
+				return countryName;
+			}
+		}	
+			java.util.List countrys=new java.util.ArrayList(8);
+			countrys.add(new Country("1","India"));
+			countrys.add(new Country("2","Nepal"));
+		
+			
+	]]>
+</zscript>
+
+<listbox model="@{countrys}">
+	<listhead>
+		<listheader label="Country Id"/>
+		<listheader label="Country Name"/>
+	</listhead>
+	<listitem self="@{each=countrys}">
+		<listcell label="@countrys.countryId"/>
+		<listcell label="@countrys.	countryName"/>
+	</listitem>
+	
+</listbox>
+</window>

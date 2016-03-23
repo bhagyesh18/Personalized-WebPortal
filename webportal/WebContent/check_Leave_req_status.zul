@@ -1,0 +1,80 @@
+<?page title="Grid LeaveDetail" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<window
+	style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+
+	<groupbox mold="3d" closable="false">
+		<caption label=" Leave Requested Status"></caption>
+		<zscript>
+		<![CDATA[
+	import java.sql.*;
+	import connection.*;
+	import grid.leave_detail;
+	ResultSet rs;
+	queryclass q1 = new queryclass();
+	String str = "select l.leave_reason,l.leave_permission,l.leave_start_date,l.leave_end_date,l.total_leave_days, e.emp_id,e.first_name,lt.leavetype from leave_detail l, employee e, leave_master lt where l.emp_id=e.emp_id and l.leavetype_id=lt.leavetype_id and l.emp_id='"+ session.getAttribute("emp_id") +"'";
+	rs = q1.selectquery(str);
+	List leave = new ArrayList();
+	while (rs.next()) {
+		String str1 = null;
+		String str = rs.getString("leave_permission");
+		int p = Integer.parseInt(str);
+		if (p == 1) {
+			str1 = "Approve";
+		}
+		if (p == 0) {
+			str1 = "Not Approve";
+		}
+		leave_detail ld = new leave_detail();
+		ld.setEmp_id(rs.getString("emp_id"));
+		ld.setEmpName(rs.getString("first_name"));
+		ld.setLeaveType(rs.getString("leavetype"));
+		ld.setLeaveReason(rs.getString("leave_reason"));
+		ld.setLeavePermission(str1);
+		ld.setStartDate(rs.getString("leave_start_date"));
+		ld.setEndDate(rs.getString("leave_end_date"));
+		ld.setTotalDays(rs.getString("total_leave_days"));
+		leave.add(ld);
+	}
+	public void do_set() 
+	{
+
+		if (cell_per.getLabel().toString().equals("Not Approve"))
+		{
+			//img_not_approve.setSrc("/images/loginlogout/login.png");
+			alert("ddd");
+			
+		}
+	}
+]]>
+	</zscript>
+		<listbox model="@{leave}" mold="paging" pageSize="12">
+			<listhead>
+				<listheader label="Employee Id" width="140px" />
+				<listheader label="Employee Name" width="100px" />
+				<listheader label="Leave Type" />
+				<listheader label="Leave Reason" />
+				<listheader label="Leave Permission" width="120px" />
+				<listheader label="Start Date" />
+				<listheader label="End Date" />
+				<listheader label="Total Days" />
+			</listhead>
+			<listitem self="@{each='leave_detail'}" >
+
+				<listcell label="@{leave_detail.emp_id}" />
+				<listcell label="@{leave_detail.empName }" />
+				<listcell label="@{leave_detail.leaveType}" />
+				<listcell label="@{leave_detail.leaveReason}" />
+				<listcell id="cell_per" label="@{leave_detail.leavePermission}" onFulfill="do_set()"
+					style="background:#f24537;font-family:arial;font-size:12px;font-weight:bold;color:#ffffff;"  >
+																			
+				</listcell>
+				<listcell label="@{leave_detail.startDate}" />
+				<listcell label="@{leave_detail.endDate}" />
+				<listcell label="@{leave_detail.totalDays}" />
+			</listitem>
+		</listbox>
+		
+	</groupbox>
+</window>

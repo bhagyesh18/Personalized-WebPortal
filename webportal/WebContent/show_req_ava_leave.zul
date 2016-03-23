@@ -1,0 +1,82 @@
+<?page title="Grid LeaveBalance" contentType="text/html;charset=UTF-8"?>
+
+<window  title="Total Available Leaves " border="normal" width="500px" closable="true" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+	<groupbox mold="3d" closable="false">
+	<caption label="Leave Available" >  </caption>
+	<zscript>
+		<![CDATA[
+		         
+			import java.sql.*;
+			import connection.*;
+			import grid.leave_balance;
+			
+			void dodata()
+			{
+			ResultSet rs;
+			
+			try
+			{
+				
+				lbl_emp_name.setValue(  requestScope.get("req_emp_name").toString());	
+			queryclass q1=new queryclass();
+				
+			String str="SELECT lb.leave_taken,lb.leave_pending,lb.year,lm.leavetype FROM leave_balance lb, leave_master lm where emp_id='" + requestScope.get("req_emp_id").toString()+ " ' and lb.leavetype_id=lm.leavetype_id;";
+			rs=q1.selectquery(str);
+			
+			rs.next();
+			lc2.setLabel(rs.getString("leave_taken").toString());
+			lc3.setLabel(rs.getString("leave_pending"));
+			lc4.setLabel(rs.getString("year"));
+			
+			rs.next();
+			lc6.setLabel(rs.getString("leave_taken"));
+			lc7.setLabel(rs.getString("leave_pending"));
+			lc8.setLabel(rs.getString("year"));
+			
+			rs.next();
+			lc10.setLabel(rs.getString("leave_taken"));
+			lc11.setLabel(rs.getString("leave_pending"));
+			lc12.setLabel(rs.getString("year"));
+			}
+			catch(Exception e)
+			{
+				alert(e.getMessage());
+				
+			}
+			}
+		]]>
+	</zscript>
+	<label id="lbl_emp_name" style="color:#79bbff;font-size:13px;font-weight:bold;background-color:gray"  ></label>
+	<listbox  id="ls" onCreate="dodata()">
+		<listhead>
+		
+			<listheader label="Leave Type"/>
+			<listheader label="Leave Taken"/>
+			<listheader label="Leave Pending"/>
+			<listheader label="year"/>
+			
+		</listhead>
+		<listitem  id="lm" >
+			<listcell  id="lc1" label="Casual Leave "/>
+			<listcell  id="lc2"/>
+			<listcell  id="lc3"/>
+			<listcell  id="lc4"/>
+		</listitem>
+		<listitem>	
+			<listcell  id="lc5"  label="Sick Leave"/>
+			<listcell  id="lc6"/>
+			<listcell  id="lc7"/>
+			<listcell  id="lc8"/>
+			</listitem>
+			<listitem>
+			<listcell  id="lc9" label="Earn leave"/>
+			<listcell  id="lc10"/>
+			<listcell  id="lc11"/>
+			<listcell  id="lc12"/>
+			
+			
+
+
+		</listitem>
+	</listbox></groupbox>
+</window>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<window title="jasperreport demo" border="normal">
+	<borderlayout height="100%">
+		<north maxsize="24" size="24" border="0">
+			<button label="Report!" onClick="showReport1()" />
+		</north>
+		<center border="none" flex="true">
+			<jasperreport id="report" />
+		</center>
+	</borderlayout>
+	<zscript><![CDATA[
+		import java.util.*;
+		
+		void showReport1() {
+			//Preparing parameters
+			Map parameters = new HashMap();
+			parameters.put("ReportTitle", "Address Report");
+			parameters.put("DataFile", "CustomDataSource.java");
+			
+			report.setSrc("DataSourceReport.jasper");
+			report.setParameters(parameters);
+			report.setDatasource(new CustomDataSource());
+		}
+	]]></zscript>
+</window>

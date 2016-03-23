@@ -1,0 +1,81 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+
+<zk>
+<style src="css/Buttoncss.css"></style>
+<window id="win_reports" closable="true" minimizable="true"
+	style="font-family:arial;margin-left:auto;margin-right:auto;width:60%;">
+
+
+	<groupbox mold="3d" closable="false">
+		<caption label="Employee Reports" />
+
+<zscript>
+		
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+        import org.joda.time.*;
+      	]]><![CDATA[//@DECLARATION
+      	  		
+          public void doemp_profile()
+      	{
+        	  Window window = (Window)Executions.createComponents(
+                      "report_emp_profile.zul", null, null);
+              window.doHighlighted();
+      	}
+		  
+          public void doemp_list()
+        	{
+          	  Window window = (Window)Executions.createComponents(
+                        "report_emp_all.zul", null, null);
+                window.doHighlighted();
+                
+        	}
+          public void doemp_leave_bal()
+        	{
+          	  Window window = (Window)Executions.createComponents(
+                        "report_emp_leave_balance.zul", null, null);
+                window.doHighlighted();
+        	}
+          public void doemp_leave_detail()
+      	{
+        	  Window window = (Window)Executions.createComponents(
+                      "reports_emp_leave_details.zul", null, null);
+              window.doHighlighted();
+      	}
+		]]></zscript>
+
+		<div>
+			<grid>
+				<rows>
+
+
+					<row>
+						Employee Profile 
+						Reports :
+						<button label="Employee Profile Reports" id="btnshow_emp_profile" onClick="doemp_profile()" sclass="classname" width="330px" ></button>
+					</row>
+					<row>
+						Detailed List Of 
+						Employee Reports :
+						<button label="Detail List Of employee " id="btnshow_emp_list" onClick="doemp_list()" sclass="classname" width="330px"></button>
+					</row>
+					<row>
+						Leave Balance 
+						Reports :
+						<button label="Leave Balance report " id="btnshow_emp_leave_bal" onClick="doemp_leave_bal()" sclass="classname" width="330px"></button>
+					</row>
+					<row>
+						Leave details 
+						Reports :
+						<button label="Leave Details of Employees " id="btnshow_emp_leave_detail" onClick="doemp_leave_detail()" sclass="classname" width="330px"></button>
+					</row>
+				</rows>
+			</grid>
+
+		</div>
+	</groupbox>
+</window>
+</zk>

@@ -1,0 +1,51 @@
+
+
+
+
+Account statement
+______________________________________________________________________________________________________________________
+Statement Criteria
+______________________________________________________________________________________________________________________
+Account Number : 029501518462
+Branch Name    : 0295
+Bank ID        : ICI
+Date ranging from 21/10/2012 to 08/11/2012
+
+______________________________________________________________________________________________________________________
+No  	Tran ID   	Value Date  	Txn Date     	Cheque No.   	Description                                                                     	Cr/Dr    	Amount    	Available Balance             
+______________________________________________________________________________________________________________________
+1   	SB1267128 	21/10/2012	22/10/2012     	          	ATM/CASH WDL/21-10-12/17:39:35/0                                                	Dr   	              200.00	           51,358.83
+2   	SB1586239 	21/10/2012	22/10/2012     	          	NFS/CASH WDL/21-10-12                                                           	Dr   	            5,000.00	           46,358.83
+3   	SB2158796 	22/10/2012	22/10/2012     	          	Dt:12/10/14 ADANI GAS LIMITED                                                   	Dr   	               10.00	           46,348.83
+4   	SB4457659 	23/10/2012	23/10/2012     	          	NFS/CASH WDL/23-10-12                                                           	Dr   	              500.00	           45,848.83
+5   	SB9405544 	28/10/2012	29/10/2012     	          	NFS/CASH WDL/28-10-12                                                           	Dr   	            1,000.00	           44,848.83
+6   	SB1794752 	30/10/2012	30/10/2012     	          	BIL/368547789/OXIGENPMR/919879311393                                            	Dr   	               50.00	           44,798.83
+7   	SB1932975 	30/10/2012	30/10/2012     	          	NFS/CASH WDL/30-10-12                                                           	Dr   	            8,000.00	           36,798.83
+8   	SB5451627 	01/11/2012	01/11/2012     	          	NFS/CASH WDL/01-11-12                                                           	Dr   	           10,000.00	           26,798.83
+9   	SB7194541 	02/11/2012	02/11/2012     	          	ATM/CASH WDL/02-11-12/10:54:43/0                                                	Dr   	           10,000.00	           16,798.83
+10  	SB7121548 	02/11/2012	02/11/2012     	          	ATM/CASH WDL/02-11-12/10:55:37/0                                                	Dr   	            5,400.00	           11,398.83
+11  	SB1398142 	04/11/2012	05/11/2012     	          	NFS/CASH WDL/04-11-12                                                           	Dr   	            2,000.00	            9,398.83
+12  	SB4581349 	06/11/2012	06/11/2012     	          	VPS/JAY BAJRANG/20121106155820/0                                                	Dr   	              200.00	            9,198.83
+13  	SB5995843 	07/11/2012	07/11/2012     	          	NFS/CASH WDL/07-11-12                                                           	Dr   	              300.00	            8,898.83
+
+
+Note:
+1. Transaction date: The date when the transaction in the account is entered.
+
+2. Value date: The date when the transaction takes effect for the purpose of calculation of interest.
+
+3. Legends Used in Account Statement
+-> VAT / MAT / NFS – Cash withdrawal at other bank ATM
+-> INF – Internet fund transfer in linked accounts
+-> EBA – Transaction on ICICI Direct
+-> BIL – Internet Bill payment or funds transfer to Third party
+-> VPS / IPS – Debit card transaction
+-> TOP – Mobile recharge
+-> BCTT – Banking Cash Transaction Tax
+-> UCCBRN CMS -Upcountry cheque collection
+-> LCCBRN CMS - Local cheque collection
+-> N chg - NEFT Charges
+-> MMT - Mobile Money Transfer (Insta FT - IMPS)
+
+
+

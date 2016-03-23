@@ -1,0 +1,77 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<window width="250px">
+	<zscript>
+<![CDATA[
+	import connection.*;
+	import java.sql.*;
+	import java.math.*;
+
+	import org.zkoss.lang.Strings;
+	import org.zkoss.lang.Objects;
+	import java.sql.*;
+    import connection.queryclass;
+
+	//prepare the example persons List
+ResultSet rs;
+	queryclass q1=new queryclass();
+	rs=q1.selectquery("Select * from country");
+	
+	
+	int count = 30;
+	List persons = new ArrayList();
+	while(rs.next()){
+		person personx = new person();
+		personx.setFirstName(rs.getString("country_id"));
+		personx.setLastName(rs.getString("country_name"));
+		persons.add(personx);
+	}
+	import org.joda.time.*;
+	import java.sql.*;
+	void do12()
+	{
+		
+		DateTime d=new DateTime(System.currentTimeMillis());
+		int year;
+		year=d.getYear(); 
+		alert(year);
+		int aa=-1;
+		
+		
+		
+		int year;
+		year=d.getYear();
+		
+		double bb=2333;
+		bb=bb+aa;
+		
+		alert(Math.abs(aa));
+	}
+	
+]]>
+</zscript>
+	<listbox rows="2" model="@{persons}" mold="paging" pageSize="2">
+		<listhead>
+			<listheader label="First Name" width="100px" />
+			
+<listheader label="Last Name" width="100px" />
+<listheader label="Last Name" width="100px" />
+				</listhead>
+		<listitem self="@{each='person'}">
+			<listcell>
+				<label value="@{person.firstName}" />
+			</listcell>
+			
+<listcell>
+				<label value="@{person.lastName}" />
+			</listcell>
+			<listcell>
+				<button label="sdfsfs"></button>
+			</listcell>
+		</listitem>
+	</listbox>
+	<button label="sdfsfs" onClick="do12()"></button>
+	
+	
+</window>

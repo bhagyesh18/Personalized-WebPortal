@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<zk>
+
+    <window id='myWin' 
+        apply="grid_controller.EmpDesignationDoubleClickEventCtrl" style="font-family:arial;margin-left:auto;margin-right:auto;width:25%;">
+        <groupbox mold="3d" closable="false"><caption label="Employe Designation"></caption>
+<style src="css/Buttoncss.css"></style>      
+       <vlayout xmlns:c="client">
+        
+        	<button id="initB" label="Add EmpDesignation" style="align:center" sclass="classname">
+        		<attribute name="onClick"><![CDATA[
+			if (!loginWin.isVisible())
+				loginWin.setVisible(true);
+			loginWin.doHighlighted();
+		]]></attribute>
+        	</button>
+   <window id="loginWin" title="Employee Designation" width="300px" visible="false" minimizable="true" onOK="doSubmit()" border='normal'>
+		<attribute name="onMinimize"><![CDATA[
+		if (self.isMinimized())
+			Clients.evalJavaScript("loginSucess(" + event.getLeft().replace("px","") + "," + event.getTop().replace("px","") + ")");
+		]]></attribute>
+		<style>
+		div.minimize {
+			border: 1px solid #79858E;
+			background: #D3E1EC;
+			position: absolute;
+			opacity: 0.8;		
+		}
+		div.loginGrid { 
+			border: none;
+		}
+		td.loginCtl {
+			text-align: center;
+		}
+		td.loginCtl .z-label {
+			color: red;			
+			font-style: italic;
+		}
+		</style>
+		<grid>
+				<rows>
+					<row>
+						Employee Designation :
+						<textbox id="txtedesig" c:onFocus="this.select()"/>
+					</row>				
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Submit" onClick="doSubmit()" sclass="classname"/>
+			</hbox>
+		<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  import homepage.*;
+		                  public void doSubmit(){
+		              		
+		                		String empDesig=txtedesig.getValue();
+		                		try
+		          			{
+		          				queryclass cn=new queryclass();
+		          				ResultSet rs=null;
+		          				
+		          				
+		          				String st1="select emp_designation_id from employee_designation";
+		          				rs=cn.selectquery(st1);
+		          				String lastvalue;
+		          				if(rs.last())
+		          				{
+		          					lastvalue=rs.getString("emp_designation_id");
+		          				}
+		          				
+		          				int temp=Integer.parseInt(lastvalue);
+		          				temp++;
+		          				String strInsert="INSERT INTO `webportal`.`employee_designation` (`emp_designation_id`, `emp_designation`) VALUES ("+temp+", '"+empDesig+"')";
+		          				cn.insertquery(strInsert);
+		          				Executions.sendRedirect("grid_empDesignation.zul"); // redirect to index		
+		          			}
+		          			catch(Exception e)
+		          			{
+		          			}
+		                  }
+		         ]]></zscript>
+	</window>
+	
+   </vlayout>
+    	    <listbox id="listempDesig"
+            model="@{myWin$EmpDesignationDoubleClickEventCtrl.EmpDesignations1}" >
+            <listhead sizable="true">
+                <listheader label="Employee Designation" width="150px" />
+            </listhead>
+            <listitem self="@{each=ed}">
+                <listcell label="@{ed.emp_designation}" />
+            </listitem>
+        </listbox>
+   </groupbox> </window>
+</zk>

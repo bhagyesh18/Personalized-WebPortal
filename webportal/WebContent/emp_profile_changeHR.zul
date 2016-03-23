@@ -1,0 +1,248 @@
+<zk>
+<window id="winemp_profile" closable="true" width="450px" onOK="doOK()" apply="emp_profile_changeHR_Controller.Emp_profile_changeHR_CTRL" >
+<style src="css/Buttoncss.css"></style>
+	<zscript><![CDATA[
+	   boolean hasZkex = true;
+	   try{
+		   Class.forName("org.zkoss.zkex.Version");
+	   }catch(Exception e){
+		   hasZkex = false;			   
+	   }						    
+	]]></zscript>
+	<html unless="${hasZkex}"><![CDATA[
+	         <h1>Missing zkex.jar</h1>
+	         <p>
+	         You need to have zkex.jar in your WEB-INF/lib to make this sample work well.
+	         For it use chart component.
+	         How to get zkex.jar? Please contact info@zkoss.org
+	         </p>
+	]]></html>
+	
+	<groupbox mold="3d" closable="false" >
+		<caption id="cpt" label=" Employee Profile">
+		</caption>
+		
+		<div>
+			<grid>
+				<rows>
+					<row>
+						Employee Photo :
+						<groupbox>
+							<caption label="Employee Photo"></caption>
+								<image id="img" width="100px"></image>
+						</groupbox>
+					</row>
+					<row>
+						Employee Id :
+						<textbox id="txtemp_id" width="200px"  constraint="no empty" readonly="true"/>
+					</row>
+					<row>
+						User Id :
+						<textbox id="txtuser_id" width="200px"  constraint="no empty" readonly="true"/>
+					</row>
+					<row>
+						First Name :
+						<textbox id="txtfname" width="200px" constraint="no empty"/>
+					</row>
+					
+					<row>
+						Last Name :
+						<textbox id="txtlname" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Address :
+						<textbox id="txtadd" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Country :
+						<combobox id="chkcountry" width="200px" onOpen="checkCountry()" onSelect="checkCountry1()"   ></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  
+		                  String selectcountry;			
+							 	
+		                  void checkCountry () 
+		                  {
+						  	queryclass obj=new queryclass();
+						  	String str1 = "SELECT * FROM country";
+	         			  	try
+	         			  	{
+								ResultSet rs=  obj.selectquery(str1);
+				    			chkcountry.getItems().clear();
+			 					while(rs.next())
+	        	       			{
+	            		           	chkcountry.appendItem(rs.getString("country_name"));
+	               				}
+	          				 }
+	          			 	catch(Exception e)
+	          			 	{
+	          			 	}
+						  }
+		                  void checkCountry1()
+		                  {
+		                	  selectcountry= chkcountry.getRawValue().toString();
+				 		      checkState(selectcountry); 
+		                  }
+		                 
+		                  void doclose()
+		                  {
+		                	  winemp_profile.detach();
+		                  }
+						]]></zscript>
+					</row>
+					<row>
+						State :
+						<combobox id="chkstate" width="200px" onSelect="checkState1()"></combobox>
+						
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  String selectcity;
+						
+		                  void checkState (String selectcountry) 
+		                  {
+						  	queryclass obj=new queryclass();
+							ResultSet rs=null;
+						 	ResultSet rs1=null;
+							
+						 	try
+	         			 	{
+	         		//		alert(selectcountry);
+	         					String getcountryid="select country_id from country where country_name='"+selectcountry+"'";
+	         			//	alert(getcountryid);
+	         				 	rs=obj.selectquery(getcountryid);
+	         				 	rs.next();
+	         				 	String str1 = "SELECT state_name FROM state where country_id='"+rs.getString("country_id")+"'";
+	         				 	rs= obj.selectquery(str1);
+	         				 
+								chkstate.getItems().clear();
+		 						while(rs.next())
+	               				{
+		            	           	chkstate.appendItem(rs.getString("state_name"));
+		               			}
+	          			 	}
+	          			 	catch(Exception e)
+	          			 	{
+	          			 	}
+						   }
+						
+						  void checkState1()
+						  {
+						  	selectcity=chkstate.getRawValue().toString();
+						  	checkCity(selectcity);
+						  }
+						]]></zscript>		
+		
+					</row>
+					<row>
+						City :
+						<combobox id="chkcity" width="200px" >
+						</combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  
+						  void checkCity (String selectcity) {
+							  	queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String getstateid="select state_id from state where state_name='"+selectcity+"'";
+			         		//		alert(getcountryid);
+			         			rs=obj.selectquery(getstateid);
+			         				
+			         			rs.next();
+			         			
+			         			String str1 = "SELECT city_name FROM city where state_id='"+rs.getString("state_id")+"'";
+			         			rs=  obj.selectquery(str1);
+			         			chkstate.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkcity.appendItem(rs.getString("city_name"));
+	               				}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						Employee Designation :
+						<combobox id="chkempd" width="200px" onOpen="checkempdesig()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                
+						  void checkempdesig () {
+							  	queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM employee_designation";
+			         			rs=  obj.selectquery(str1);
+			         			chkempd.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkempd.appendItem(rs.getString("emp_designation"));
+	               				}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>					
+					</row>
+					
+					<row>
+						Email :
+						<textbox id="txtemail" width="200px" constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+					</row>
+						
+				
+					<row>
+						Mobile No :
+						<textbox id="txtmbn" width="200px" constraint="no empty"></textbox>
+					</row>
+					
+					
+					<row>
+						Gender :
+						<radiogroup id="rggender">
+							<radio label="Male"/>
+							<radio label="Female"/>
+						</radiogroup>
+					</row>
+					<row>
+						Maritual Status :
+						<radiogroup id="rgms">
+							<radio label="Unmarried"/>
+							<radio label="Married"/>	
+						</radiogroup>
+					</row>
+					<row>
+						Security Question :
+						<textbox id="txtsecurityque" width="200px" constraint="no empty" />
+					</row>
+					<row>
+						Security Answer :
+						<textbox id="txtsqcurityans" width="200px" constraint="no empty"></textbox>
+					</row>
+					<row>
+						<captcha id="cpa" length="6" width="150px" onClick="cpa.randomValue()" if="${hasZkex}" 
+							height="50px" />
+						<textbox id="cpatb" width="200px" constraint="${cpc}"/>	
+					</row>
+					
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button id="btnupdate" label="Update" sclass="classname"/>
+				<button onClick="doclose()" label="Close" sclass="classname"/>
+			</hbox>
+		</div>
+	</groupbox>
+	
+</window>
+</zk>

@@ -1,0 +1,74 @@
+<?page title="Grid LeaveBalance" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<window title="grid_leavebalance" border="normal" width="600px">
+	<zscript>
+	
+		<![CDATA[
+		 	import java.sql.*;
+			import connection.*;
+			import grid.leave_balance;;
+			ResultSet rs;
+			
+			queryclass q1=new queryclass();
+						
+			String str="select lb.leavebalance_id, lb.leave_taken,lb.leave_pending, e.first_name,lt.leavetype from leave_balance lb, employee e, leave_master lt where lb.emp_id=e.emp_id and lb.leavetype_id=lt.leavetype_id";
+			rs=q1.selectquery(str);
+			List leavebalance=new ArrayList();
+			
+			while(rs.next())
+			{
+				leave_balance lb=new leave_balance();
+				lb.setLeaveId(rs.getString("leavebalance_id"));
+				lb.setEmpName(rs.getString("first_name"));
+				lb.setLeaveType(rs.getString("leavetype"));
+				lb.setLeaveTaken(rs.getString("leave_taken"));
+				lb.setLeavePending(rs.getString("leave_pending"));
+				leavebalance.add(lb);
+			}
+			
+		]]>
+	</zscript>
+	
+	<listbox model="@{leavebalance}" id="ls" mold="paging" pageSize="12">
+		<listhead>
+			<listheader label="Employee Name"/>
+			<listheader label="Leave Type"/>
+			<listheader label="Leave Taken"/>
+			<listheader label="Leave Pending"/>
+			<listheader label="Button"/>
+		</listhead>
+		<listitem self="@{each='leave_balance'}" id="lm" >
+			<listcell>
+				<textbox value="@{leave_balance.empName }" readonly="true" name="txte" id="lmn">
+					<![CDATA[
+					
+					]]>			
+				</textbox>
+			</listcell>
+			<listcell>
+				<textbox value="@{leave_balance.leaveType}" name="txtl" readonly="true"/>
+			</listcell>
+			<listcell>
+				<textbox value="@{leave_balance.leaveTaken}" name="txtlt" readonly="true"/>
+			</listcell>
+			<listcell label="">
+				<textbox value="@{leave_balance.leavePending}" name="txtlp" readonly="true"/>
+			</listcell>
+			
+			<listcell>
+				<button label="Delete" >
+					<attribute name="onClick">
+						 <![CDATA[			
+
+                                 ]]>
+							
+					</attribute>
+				</button>
+			
+			</listcell>
+		</listitem>
+	</listbox>
+	
+	
+</window>

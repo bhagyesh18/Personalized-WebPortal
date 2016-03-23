@@ -1,0 +1,557 @@
+<zk>
+<div apply="org.zkoss.bind.BindComposer" height="278px" width="443px" class="combodivarea" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+<window width="450px" onOK="doOK()"  style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+<style src="css/Buttoncss.css"></style>
+	<zscript><![CDATA[
+	   boolean hasZkex = true;
+	   try{
+		   Class.forName("org.zkoss.zkex.Version");
+	   }catch(Exception e){
+		   hasZkex = false;			   
+	   }						    
+	]]></zscript>
+	<html unless="${hasZkex}"><![CDATA[
+	         <h1>Missing zkex.jar</h1>
+	         <p>
+	         You need to have zkex.jar in your WEB-INF/lib to make this sample work well.
+	         For it use chart component.
+	         How to get zkex.jar? Please contact info@zkoss.org
+	         </p>
+	]]></html>
+	
+	<groupbox mold="3d" closable="false" >
+		<caption label="Register Form"/>
+		<zscript>
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+        import java.text.DateFormat;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
+        import org.joda.time.*;
+        
+		]]><![CDATA[//@DECLARATION
+		public void doRegister(){
+			String status;
+			int flag=0,flag1=0,flag3=0,flag4=0;
+			if(chkstatus.isChecked())
+			{
+				flag=1;
+			}
+			else
+			{
+				flag=0;
+			}
+			if(chkstatus1.isChecked()==true)
+			{
+				flag1=1;
+			}
+			else
+			{
+				flag1=0;
+			}
+			
+			if(rggender.getSelectedIndex()==0)
+			{
+				flag3=1;
+			}
+			else
+			{
+				flag3=0;
+			}
+		
+			String uname=txtuname.getValue();
+			String urole=chkuserrole.getValue();
+			String fname = txtfname.getValue();
+			String lname=txtlname.getValue();
+			String add=txtadd.getValue();
+			String country=chkcountry.getValue();
+			String state=chkstate.getValue();
+			String city=chkcity.getValue();
+			String basic_salary=txtbasic.getValue();
+			
+			String email = txtemail.getValue();
+			String password=txtpwd.getValue();
+			String mno=txtmbn.getValue();
+			String empdesig=chkempd.getValue(); 
+			String birthdate=birthbox.getText();
+			String joiningdate=dateofjoin.getText();
+			//alert(birthdate);
+			//alert(joiningdate);
+				String gender=rggender.getSelectedItem().toString();
+			int mstatus=rgms.getSelectedIndex();
+			String securityque=txtsecurityque.getValue();
+			String securityans=txtsqcurityans.getValue();
+			cpatb.getValue();
+			String getUserRoleId;
+			String getCountryId;
+			String getStateId;
+			String getCityId;
+			String getEmpDesigId; 
+			if(mstatus==0)
+			{
+				status="Unmarried";
+			}
+			else
+			{
+				status="Married";
+			}
+		
+			try
+			{
+
+				queryclass cn=new queryclass();
+				queryclass cn1=new queryclass();
+				queryclass cn2=new queryclass();
+				
+				ResultSet rs=null;
+				
+				String struserrole="select user_role_id from user_role where user_role='"+urole+"'";
+				rs=cn.selectquery(struserrole);
+				rs.next();
+				getUserRoleId=rs.getString("user_role_id").toString();
+				
+				String strCountry="select country_id from country where country_name='"+country+"'";
+				rs=cn.selectquery(strCountry);
+				rs.next();
+				getCountryId=rs.getString("country_id").toString();
+				
+				String strState="select state_id from state where state_name='"+state+"'";
+				rs=cn.selectquery(strState);
+				rs.next();
+				getStateId=rs.getString("state_id").toString();
+				
+				String strCity="select city_id from city where city_name='"+city+"'";
+				rs=cn.selectquery(strCity);
+				rs.next();
+				getCityId=rs.getString("city_id").toString();
+				
+				String strEmpDesig="select emp_designation_id from employee_designation where emp_designation='"+empdesig+"'";
+				rs=cn.selectquery(strEmpDesig);
+				rs.next();
+				getEmpDesigId=rs.getString("emp_designation_id").toString();
+			
+				String strLastUser="select user_id from user_master";
+				rs=cn.selectquery(strLastUser);
+				String lastValueUser;
+				while(rs.next())
+				{
+					lastValueUser=rs.getString("user_id");
+				}
+			    	int temp1=Integer.parseInt(lastValueUser);
+				temp1++;
+				//alert(temp1);
+							
+				/*
+				
+				last record of emp_id but changed to varchar and dateformat id
+				String strLast="select emp_id from employee";
+				rs=cn.selectquery(strLast);
+				String lastValue;
+				while(rs.next())
+				{
+					lastValue=rs.getString("emp_id");
+				}
+				int temp=Integer.parseInt(lastValue);
+				temp++;
+				alert(temp);
+				*/
+				DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+				Date date = new Date();				
+				String emp_id=dateFormat.format(date);
+				
+				String photo=emp_id+".jpg";
+				
+				String strUserInsert="INSERT INTO `webportal`.`user_master` (`user_id`, `username`, `password`, `user_role_id`, `security_question`, `security_answer`, `status`) VALUES ("+temp1+", '" + uname + "', '" + password + "', '3', '" + securityque + "', '" + securityans + "', " + flag + ");";
+				
+				String strEmployeeInsert="INSERT INTO `webportal`.`employee` (`emp_id`, `user_id`, `first_name`, `last_name`, `address`, `city_id`, `email_id`, `mobile_no`, `emp_designation_id`,`basic_salary`, `dateOfjoin`, `dateOfbirth`, `gender`, `maritual_status`, `status`,`photo`) values("+emp_id+","+temp1+",'" + fname + "','" + lname + "','" + add + "','" + getCityId + "','"+ email +"','" + mno + "','" + getEmpDesigId + "','"+ basic_salary +"','" + joiningdate + "',' " + birthdate + "'," + flag3 + ",'" + status + "'," + flag + ",'"+photo+"');";
+				
+				
+				
+				
+				DateTime d=new DateTime(System.currentTimeMillis());
+				int year;
+				year=d.getYear();
+				String temp_year=String.valueOf(year);
+				
+				queryclass objleave=new queryclass();
+				ResultSet rsleave=objleave.selectquery("SELECT leavetype_id,maxleave FROM webportal.max_leave where emp_designation_id='" + getEmpDesigId + "';");
+				while(rsleave.next())
+				{
+					String leave_balance_query="INSERT INTO `webportal`.`leave_balance` (`emp_id`, `leavetype_id`, `leave_taken`, `leave_pending`,`year`) VALUES ('" +emp_id + "', '" + rsleave.getString("leavetype_id").toString() + "' , 0, '"+ rsleave.getString("maxleave").toString() +"','"+ temp_year +"');";
+					cn2.insertquery(leave_balance_query);
+					
+				}
+				
+					
+				
+				 Files.copy(new File(realpath.concat("\\webContent\\emp_images\\").toString()+emp_id+".jpg"), media.getStreamData());
+				 
+				 
+				 queryclass panel_obj=new queryclass();
+					ResultSet rs_panel=panel_obj.selectquery("select panel_id from panel_master");
+					
+					//alert(""+temp1);
+					while(rs_panel.next())
+					{
+						queryclass panel_insert=new queryclass();
+						
+						panel_insert.insertquery("INSERT INTO `webportal`.`personalized_panel` (`user_id`, `panel_id`, `status`) VALUES (" + temp1 +", "+ rs_panel.getString("panel_id").toString() +", 1);");
+					}
+				
+				//String leave_balance_query="INSERT INTO `webportal`.`leave_balance` (`emp_id`, `leavetype_id`, `leave_taken`, `leave_pending`) VALUES ('" +emp_id + "', 33, 0, 11);";
+				
+				/*
+				INSERT INTO `webportal`.`employee` (`emp_id`, `user_id`, `first_name`, `last_name`, `address`, `city_id`, `email_id`, `mobile_no`, `emp_designation_id`, `dateOfjoin`, `dateOfbirth`, `gender`, `maritual_status`, `status`) VALUES ('5', '1', 'hhhh', 'hhhh', 'hhhh', '1', 'lkklk', '898908', '1', '2012-09-09', '2012-09-09', 1, 'single', 1);
+				insert into employee('user_id','first_name','last_name','address','city_id','email_id','mobile_no','emp_designation_id','dateOfjoin','dateOfbirth','gender','maritual_status','status') 
+				values('1','hhkhjkh','hjkhjkhjk','kjhhjh','1','hjhjkh@k.c','78787','5','2012/10/09','2012/10/03','1','Unmarried','0')
+				*/
+				//alert(strUserInsert);
+				//alert(strEmployeeInsert);
+				cn.insertquery(strUserInsert);
+				cn1.insertquery(strEmployeeInsert);
+			}
+			catch(Exception e)
+			{
+				alert(e.getMessage());
+			}
+			
+			
+			
+			alert(" Employee Registred Successfully!");
+		}
+		public void doOK(){
+			doRegister();
+		}
+		Constraint pwc = new Constraint() {
+	    	public void validate(Component comp, Object value) throws WrongValueException {
+		       	if (!Objects.equals(txtpwd.getValue(),value)){
+					throw new WrongValueException(comp, "Password doesn't euqal");
+		    	}
+	    	}
+	 	};
+		Constraint cpc = new Constraint() {
+	    	public void validate(Component comp, Object value) throws WrongValueException {
+		       	if (!Objects.equals(cpa.getValue().toLowerCase(),((String)value).toLowerCase())){
+					throw new WrongValueException(comp, "Wrong captcha !! Click on captcha to refresh new one");
+		    	}
+	    	}
+	 	};
+		
+		]]></zscript>
+		<div>
+			<grid>
+				<rows>
+					<row>
+						User Name :
+						<textbox id="txtuname" width="200px" constraint="no empty" />
+					</row>
+					<row>
+						User Role :
+						<combobox id="chkuserrole" width="200px" onOpen="checkRole()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  
+		                  void checkRole () {
+		                	  	queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+							  	String st="Employee";
+						  		String str1 = "SELECT * FROM user_role where user_role='"+st+"'";
+			         			rs=  obj.selectquery(str1);
+			         			chkuserrole.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkuserrole.appendItem(rs.getString("user_role"));
+	            	           		String getuserid=rs.getString("user_role_id").toString();
+	            	           	//	chkuserrole.appendItem(getuserid);
+	               				}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						First Name :
+						<textbox id="txtfname" width="200px" constraint="no empty"/>
+					</row>
+					
+					<row>
+						Last Name :
+						<textbox id="txtlname" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Address :
+						<textbox id="txtadd" width="200px" constraint="no empty"/>
+					</row>
+					<row>
+						Country :
+						<combobox id="chkcountry" width="200px" onOpen="checkCountry()" onSelect="checkCountry1()"   ></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  
+		                  String selectcountry;			
+							 	
+		                  void checkCountry () 
+		                  {
+						  	queryclass obj=new queryclass();
+						  	String str1 = "SELECT * FROM country";
+	         			  	try
+	         			  	{
+								ResultSet rs=  obj.selectquery(str1);
+				    			chkcountry.getItems().clear();
+			 					while(rs.next())
+	        	       			{
+	            		           	chkcountry.appendItem(rs.getString("country_name"));
+	               				}
+	          				 }
+	          			 	catch(Exception e)
+	          			 	{
+	          			 	}
+						  }
+		                  void checkCountry1()
+		                  {
+		                	  selectcountry= chkcountry.getRawValue().toString();
+				 		      checkState(selectcountry); 
+		                  }
+						]]></zscript>
+					</row>
+					<row>
+						State :
+						<combobox id="chkstate" width="200px" onSelect="checkState1()"></combobox>
+						
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  String selectcity;
+						
+		                  void checkState (String selectcountry) 
+		                  {
+						  	queryclass obj=new queryclass();
+							ResultSet rs=null;
+						 	ResultSet rs1=null;
+							
+						 	try
+	         			 	{
+	         		//		alert(selectcountry);
+	         					String getcountryid="select country_id from country where country_name='"+selectcountry+"'";
+	         			//	alert(getcountryid);
+	         				 	rs=obj.selectquery(getcountryid);
+	         				 	rs.next();
+	         				 	String str1 = "SELECT state_name FROM state where country_id='"+rs.getString("country_id")+"'";
+	         				 	rs= obj.selectquery(str1);
+	         				 
+								chkstate.getItems().clear();
+		 						while(rs.next())
+	               				{
+		            	           	chkstate.appendItem(rs.getString("state_name"));
+		               			}
+	          			 	}
+	          			 	catch(Exception e)
+	          			 	{
+	          			 	}
+						   }
+						
+						  void checkState1()
+						  {
+						  	selectcity=chkstate.getRawValue().toString();
+						  	checkCity(selectcity);
+						  }
+						]]></zscript>		
+		
+					</row>
+					<row>
+						City :
+						<combobox id="chkcity" width="200px" >
+						</combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  
+						  void checkCity (String selectcity) {
+							  	queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String getstateid="select state_id from state where state_name='"+selectcity+"'";
+			         		//		alert(getcountryid);
+			         			rs=obj.selectquery(getstateid);
+			         				
+			         			rs.next();
+			         			
+			         			String str1 = "SELECT city_name FROM city where state_id='"+rs.getString("state_id")+"'";
+			         			rs=  obj.selectquery(str1);
+			         			chkstate.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkcity.appendItem(rs.getString("city_name"));
+	               				}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						Email :
+						<textbox id="txtemail" width="200px" constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+					</row>
+						<row>
+						Password :
+						<textbox id="txtpwd" width="200px"
+							type="password" constraint="no empty"/>
+					</row>
+					<row>
+						Password Again :
+						<textbox id="txtpwd2" width="200px"
+							type="password" constraint="${pwc}"/>
+					</row>
+				
+					<row>
+						Mobile No :
+						<textbox id="txtmbn" width="200px" constraint="no empty"></textbox>
+					</row>
+					<row>
+						Employee Designation :
+						<combobox id="chkempd" width="200px" onOpen="checkempdesig()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                
+						  void checkempdesig () {
+							  	queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM employee_designation";
+			         			rs=  obj.selectquery(str1);
+			         			chkempd.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkempd.appendItem(rs.getString("emp_designation"));
+	               				}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>					
+					</row>
+					<row>
+						Basic Salary :
+						<textbox id="txtbasic" width="200px" constraint="no empty"></textbox>
+					</row>
+					<row>
+						Date Of Birth :
+						<datebox id="birthbox" width="200px" format="yyyy/MM/dd"  />
+					</row>
+					<row>
+						Date Of Joining :
+						<datebox id="dateofjoin" width="200px" format="yyyy/MM/dd"/>
+					</row>
+					<row>
+						Gender :
+						<radiogroup id="rggender">
+							<radio label="Male"/>
+							<radio label="Female"/>
+						</radiogroup>
+					</row>
+					<row>
+						Maritual Status :
+						<radiogroup id="rgms">
+							<radio label="Unmarried"/>
+							<radio label="Married"/>	
+						</radiogroup>
+					</row>
+					<row>
+						Security Question :
+						<textbox id="txtsecurityque" width="200px" constraint="no empty" />
+					</row>
+					<row>
+						Security Answer :
+						<textbox id="txtsqcurityans" width="200px" constraint="no empty"></textbox>
+					</row>
+					<row>
+						<captcha id="cpa" length="6" width="150px" onClick="cpa.randomValue()" if="${hasZkex}" 
+							height="50px" />
+						<textbox id="cpatb" width="200px" constraint="${cpc}"/>	
+					</row>
+					<row>
+						Status :
+						<vlayout>
+						<checkbox id="chkstatus" width="200px" label="Is Active"></checkbox>
+						<checkbox id="chkstatus1" width="200px" label="Is Blocked" visible="false"></checkbox>	
+						</vlayout>
+					</row>
+					<row>
+					Upload Photo:
+					<groupbox >
+<caption label="Profile Photo"></caption>
+JPEG only, 100kb
+<button label="Upload" upload="true">
+
+ <attribute name="onUpload">
+     <![CDATA[
+  import java.io.File;
+  import org.zkoss.io.Files;
+  import org.zkoss.util.media.Media;
+  
+  
+  int FILE_SIZE = 100;
+
+  		String path = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+	//alert(path.concat("resume\\"));
+	//alert(path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\",""));
+	String realpath=path.replace(".metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\","");
+	//alert(realpath.concat("resume\\"));
+	//String temp="C:\\Bhagyesh\\Study\\Projects and Practice & Data (BHAVIN-PC)\\personalized web portal\\project_workspace\\ListItemMVC1\\resume\\";
+
+	//alert(temp);
+
+	 public Media media = event.getMedia();
+	  
+	  //alert(""+media.getName().toString());
+						
+			
+	  if(media.getByteData().length>(100*1024))
+	  {
+		  alert("size is big");
+		  
+	  }
+	  else
+		{
+		 // alert("/resume/"+media.getName());
+		  org.zkoss.image.Image picture = (org.zkoss.image.Image) media;
+		   img.setContent(picture);
+		 
+		}
+	 
+	
+	
+ ]]>
+ 
+  </attribute>
+</button>
+
+<image id="img" width="100px"></image>
+</groupbox>
+					</row>
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Register" onClick="doRegister()" sclass="classname"/>
+			</hbox>
+		</div>
+	</groupbox>
+	
+</window>
+</div>
+</zk>

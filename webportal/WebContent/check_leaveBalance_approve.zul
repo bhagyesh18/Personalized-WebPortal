@@ -1,0 +1,55 @@
+<?page title="Grid LeaveBalance" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<window  title="Total Available Leaves " border="normal" width="500px" closable="true" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+	<groupbox mold="3d" closable="false">
+	<caption label="Leave Available" >  </caption>
+	<zscript>
+		<![CDATA[
+		         
+			import java.sql.*;
+			import connection.*;
+			import grid.leave_balance;
+			ResultSet rs;
+			
+			queryclass q1=new queryclass();
+					
+			String str="SELECT lb.leave_taken,lb.leave_pending,lb.year,lm.leavetype FROM leave_balance lb, leave_master lm where emp_id='" + session.getAttribute("emp_id").toString()+ "' and lb.leavetype_id=lm.leavetype_id;";
+			rs=q1.selectquery(str);
+			List leavebalance=new ArrayList();
+			
+			while(rs.next())
+			{
+				leave_balance lb=new leave_balance();
+				lb.setEmpName(session.getAttribute("username").toString());
+				lb.setLeaveType(rs.getString("leavetype"));
+				lb.setLeaveTaken(rs.getString("leave_taken"));
+				lb.setLeavePending(rs.getString("leave_pending"));
+				lb.setLeavePending(rs.getString("year"));
+				leavebalance.add(lb);
+			}
+			
+			
+			
+		]]>
+	</zscript>
+	<listbox model="@{leavebalance}" id="ls" mold="paging" pageSize="12">
+		<listhead>
+			
+			<listheader label="Employee Name"/>
+			<listheader label="Leave Type"/>
+			<listheader label="Leave Taken"/>
+			<listheader label="Leave Pending"/>
+			<listheader label="year"/>
+			
+		</listhead>
+		<listitem self="@{each='leave_balance'}" id="lm" >
+			<listcell label="@{leave_balance.empName }" id="lm1"/>
+			<listcell label="@{leave_balance.leaveType}" />
+			<listcell label="@{leave_balance.leaveTaken}" />
+			<listcell label="@{leave_balance.leavePending}" />
+<listcell label="@{leave_balance.year}" />
+
+		</listitem>
+	</listbox></groupbox>
+</window>

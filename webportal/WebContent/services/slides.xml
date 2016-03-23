@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<flash_parameters copyright="anvsoftPFMTheme">
+    <preferences>
+        <global>
+            <basic_property movieWidth="900" movieHeight="550" html_title="Title" backgroundColor="0x000000" hideAdobeMenu="true" frameRate="30" defaultVolume="80"/>
+            <title_property showTitle="true" titleTextFont="Arial" photoTitleColor="0xffff00" titleTextSize="14"/>
+            <music_property path="" stream="true" loop="false"/>
+            <description_property enable="true" backgroundColor="0x3c3c3c" defaultTextFont="Arial" defaultTextColor="0xffffff" defaultTextSize="12" cssText="a:link{text-decoration: underline;} a:hover{color:#ff0000; text-decoration: none;} a:active{color:#0000ff;text-decoration: none;} .blue {color:#0000ff; font-size:15px; font-style:italic; text-decoration: underline;} .body{color:#ff5500;font-size:20px;}"/>
+            <video_property bufferTime="5"/>
+            <3d_property do3dOffsetY="0" cameraZoomValue="120" cameraCuddleDistance="200" cameraFocusValue="9"/>
+        </global>
+        <thumbnail>
+            <basic_property cubeWidth="100" cubeHeight="75" cubeDepth="8" rowsOfList="3" columnsOfList="8" cubeSpacing="10" cubeFaceColorArray="0xffffff,0x999999" buttonColor="0x414141" moveControlBarBgColor="0x000000" moveControlSlideBarColor="0x222222" moveControlDragBarColorArray="0x4a4a4a,0x404040,0x363636"/>
+        </thumbnail>
+    </preferences>
+    <album>
+        <slide jpegURL="thumbs/t_0001.jpg" d_URL="slides/p_0001.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="1" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0002.jpg" d_URL="slides/p_0002.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="2" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0003.jpg" d_URL="slides/p_0003.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="3" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0004.jpg" d_URL="slides/p_0004.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="4" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0005.jpg" d_URL="slides/p_0005.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="5" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0006.jpg" d_URL="slides/p_0006.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="6" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0007.jpg" d_URL="slides/p_0007.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="7" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0008.jpg" d_URL="slides/p_0008.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="8" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0009.jpg" d_URL="slides/p_0009.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="9" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0010.jpg" d_URL="slides/p_0010.jpg" transition="0" panzoom="1" URLTarget="0" phototime="2" transitiontime="2" url="http://www.photo-flash-maker.com/introduce-photo-flash-maker.php" title="10" width="900" height="550"/>
+        <slide jpegURL="thumbs/t_0011.jpg" d_URL="slides/p_0011.jpg" transition="29" panzoom="1" URLTarget="0" phototime="10" transitiontime="2" url="http://www.photo-flash-maker.com/" title="Powered by Photo Flash Maker Platinum" width="900" height="550"/>
+    </album>
+</flash_parameters>

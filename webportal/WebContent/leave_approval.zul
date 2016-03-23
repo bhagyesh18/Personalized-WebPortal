@@ -1,0 +1,50 @@
+<?page title="Grid Employee" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<zk><style src="css/Buttoncss.css"></style>
+<window  id="win_leave_req"  width="75%"  apply="grid_controller.leave_approval_ctrl" style="font-family:arial;margin-left:auto;margin-right:auto;width:80%;">
+	<groupbox mold="3d" closable="false">
+	<caption label="Total Leave Requested "></caption>
+		<listbox id="list_leave_approval" checkmark="true" multiple="true"
+			model="@{win_leave_req$leave_approval_ctrl.Leave_request_details1}" mold="paging" pageSize="12">
+			<listhead sizable="true">
+			 	<listheader label="Request NO:" width="80px" />
+				<listheader label="Employee Id"  />
+				<listheader label="First Name"  />
+				<listheader label="Leave Type"  />
+				<listheader label="Leave Reason" />
+				<listheader label="Leave Permission "  />
+				<listheader label="Leave Staring Date"  />
+				<listheader label="Leave End Date"  />
+				<listheader label="Total Days" />
+							
+			</listhead>
+
+			<listitem self="@{each=emp1}">
+				<listcell label="@{emp1.leavedetail_id}" />
+				<listcell label="@{emp1.emp_id}" />
+				<listcell label="@{emp1.firstname}" />
+				<listcell label="@{emp1.leavetype}" />
+				<listcell label="@{emp1.Leave_reason}" />
+				<listcell label="@{emp1.Leave_permission}" ></listcell>
+				<listcell label="@{emp1.Leave_start}" />
+				<listcell label="@{emp1.Leave_end}" />
+				<listcell label="@{emp1.total_Leaves_days}" />
+				
+			</listitem>
+		</listbox>
+		<zscript><![CDATA[
+		
+		
+		]]></zscript>
+		
+		
+		<button id="btn_approve" sclass="classname" label="Approve"/>
+		<button id="btn_not_approve" sclass="classname" label="Not Approve"/>
+	<button id="btn_available_leave" sclass="classname" label="Check Available Leaves"/>
+	
+	</groupbox>
+	</window>
+	
+	
+	
+</zk>

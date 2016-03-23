@@ -1,0 +1,161 @@
+<?page title="Salary" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+	<style src="css/Buttoncss.css"></style>
+	<window id="win_make_absent" closable="true" minimizable="true"
+		style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;" apply="leave_absent.leave_absent_ctrl">
+		<zscript><![CDATA[
+	boolean hasZkex = true;
+	try {
+		Class.forName("org.zkoss.zkex.Version");
+	} catch (Exception e) {
+		hasZkex = false;
+	}
+]]></zscript>
+		<html unless="${hasZkex}">
+			
+			<![CDATA[ <h1>Missing zkex.jar</h1> <p> You need to have
+			zkex.jar in your WEB-INF/lib to make this sample work well.
+			For it use chart component. How to get zkex.jar? Please
+			contact info@zkoss.org </p> ]]>
+			
+		</html>
+
+		<groupbox mold="3d" closable="false">
+			<caption label="Make Absent of Employee" />
+			<zscript>
+		
+		<![CDATA[
+	//@IMPORT
+	import org.zkoss.lang.Strings;
+	import org.zkoss.lang.Objects;
+	import java.sql.*;
+	import connection.queryclass;
+	import org.joda.time.*;
+]]><![CDATA[
+	//@DECLARATION
+]]></zscript>
+
+
+			<div>
+				<grid><rows>
+					<row>
+						Employee Id :
+						<combobox id="chkemp_id" width="200px" onOpen="checkCountry()" onSelect="checkCountry1()"   ></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;
+		                  
+		                  String selectemp_id;			
+							 	
+		                  void checkCountry () 
+		                  {
+						  	queryclass obj=new queryclass();
+						  	String str1 = "SELECT * FROM employee";
+	         			  	try
+	         			  	{
+								ResultSet rs=  obj.selectquery(str1);
+								chkemp_id.getItems().clear();
+			 					while(rs.next())
+	        	       			{
+			 						chkemp_id.appendItem(rs.getString("emp_id"));
+	               				}
+	          				 }
+	          			 	catch(Exception e)
+	          			 	{
+	          			 	}
+						  }
+		                  void checkCountry1()
+		                  {
+		                	  selectemp_id= chkemp_id.getRawValue().toString();
+				 		      checkState(selectemp_id); 
+				 		     checkState(selectemp_id);
+				 		     
+		                  }
+		                 
+		                  void checkState (String selectemp_id) 
+		                  {
+		                	  
+						  	queryclass obj=new queryclass();
+							ResultSet rs=null;
+						 	ResultSet rs1=null;
+							
+						 	try
+	         			 	{
+	         		
+	         					String getempid="select emp_id from employee where emp_id='"+selectemp_id+"'";
+	         			
+	         				 	rs=obj.selectquery(getempid);
+	         				 	rs.next();
+	         				 	String str1 = "select first_name,last_name from employee where emp_id='"+rs.getString("emp_id")+"'";
+	         				 	rs= obj.selectquery(str1);
+	         				 
+	         				 	
+		 						while(rs.next())
+	               				{
+		 							
+		 							String first=rs.getString("first_name");
+		 							String lname=(rs.getString("last_name"));
+			 						
+		 							txt_emp_name.setValue(first+" "+lname);
+		 							
+			 						
+		               			}
+	          			 	}
+	          			 	catch(Exception e)
+	          			 	{
+	          			 	}
+						   }
+						
+						
+						]]></zscript>
+					</row>
+					<row>
+						Employee Name :
+						<label id="txt_emp_name" > </label>
+						</row>
+						<row>
+						Leave Type :
+						<combobox id="chkleavetype" width="200px" onOpen="checkLeaveType()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;;
+		                  
+						  void checkLeaveType () {
+						  queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM leave_master";
+			         			rs=  obj.selectquery(str1);
+			         			chkleavetype.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkleavetype.appendItem(rs.getString("leavetype"));
+	            	           	}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					
+					<row>
+						Total LeaveDays :
+						<textbox id="txtldays" />
+							
+						
+					</row>
+					</rows>
+				</grid>
+				<hbox pack="center" width="100%">
+					<button label="Make Absent" id="btnabsent"
+						sclass="classname" />
+					<button label="check Leave" id="btncheck"
+						sclass="classname" />
+				</hbox>
+			</div>
+		</groupbox>
+	</window>
+</zk>

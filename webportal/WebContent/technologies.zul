@@ -1,0 +1,8 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="ee" width="100%" height="100%" >
+<iframe src="/techlogies/flas.swf" width="100%" height="100%"></iframe>
+	
+<label id="lbl"></label>
+</window>
+</zk>

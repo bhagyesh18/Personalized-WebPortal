@@ -1,0 +1,37 @@
+<?page title="Grid Employee" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<zk>
+<window  id="win_employee"  width="85%"  apply="grid_controller.employee_details_ctrl" style="font-family:arial;margin-left:auto;margin-right:auto;width:90%;">
+<groupbox mold="3d" closable="false"><caption label="Employee Details"></caption>
+	<style src="css/Buttoncss.css"></style>
+		<listbox id="listemp"
+			model="@{win_employee$employee_details_ctrl.Employees1}" checkmark="true" mold="paging" pageSize="12">
+			<listhead sizable="true">
+				<listheader label="Employee id"  width="140px" />
+				<listheader label="First Name"  />
+				<listheader label="Last Name"  />
+				<listheader label="User id"  />
+				<listheader label="Address" width="150px" />
+				<listheader label="Mobile"  />
+				<listheader label="Designation"  />
+				<listheader label="Basic Salary" />
+				<listheader label="Gender"  />
+				<listheader label="Account Status"  />
+			</listhead>
+		
+			<listitem self="@{each=emp1}">
+				<listcell label="@{emp1.emp_id}" />
+				<listcell label="@{emp1.first_name}" />
+				<listcell label="@{emp1.last_name}" />
+				<listcell label="@{emp1.user_id}" />
+				<listcell label="@{emp1.emp_designation_id}" />
+				<listcell label="@{emp1.basic_salary}" />
+				<listcell label="@{emp1.address}" />
+				<listcell label="@{emp1.mobile_no}" />
+				<listcell label="@{emp1.gender}" />
+				<listcell label="@{emp1.status}" />
+			</listitem>
+		</listbox>
+		<button  id="btndelete" label="Delete" sclass="classname"></button>
+	</groupbox></window>
+</zk>

@@ -1,0 +1,182 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk><style src="css/Buttoncss.css"></style>
+<window  style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+	<zscript><![CDATA[
+	   boolean hasZkex = true;
+	   try{
+		   Class.forName("org.zkoss.zkex.Version");
+	   }catch(Exception e){
+		   hasZkex = false;			   
+	   }						    
+	]]></zscript>
+	<html unless="${hasZkex}"><![CDATA[
+	         <h1>Missing zkex.jar</h1>
+	         <p>
+	         You need to have zkex.jar in your WEB-INF/lib to make this sample work well.
+	         For it use chart component.
+	         How to get zkex.jar? Please contact info@zkoss.org
+	         </p>
+	]]></html>
+	<button id="btnchk_leave" sclass="classname" label="Check Availabel Leaves" onClick="docheck_ava()"/>
+	<groupbox mold="3d" closable="false" >
+		<caption label="Leave Request Form"/>
+		<zscript>
+		
+		<![CDATA[//@IMPORT
+		import org.zkoss.lang.Strings;
+		import org.zkoss.lang.Objects;
+		import java.sql.*;
+        import connection.queryclass;
+        import org.joda.time.*;
+      	]]><![CDATA[//@DECLARATION
+      	  		
+      	            public void docheck_ava()
+      	{
+      	              Window window = (Window)Executions.createComponents(
+                              "grid_leaveBalance.zul", null, null);
+                      window.doHighlighted();
+      	}
+      	            
+            public void doSubmit(){
+            	int diffdays=0;
+      			String getLeavetypeId;
+      			
+    			DateTime startdate=new DateTime(dtLeavesdate.getValue());
+    			DateTime enddate=new DateTime(dtLeaveedate.getValue());
+    			Days d=Days.daysBetween(startdate,enddate);  			
+    			diffdays=d.getDays();
+
+			String strLeaveType=chkleavetype.getValue();
+			String strLeaveReason=txtlreason.getValue();
+			String strLeavePermission = "0";
+			String sdate=dtLeavesdate.getText();
+			String edate=dtLeaveedate.getText();
+			try
+			{
+				queryclass cn=new queryclass();
+				ResultSet rs=null;
+				
+				String str="select leavetype_id from leave_master where leavetype='"+strLeaveType+"'";
+				rs=cn.selectquery(str);
+				rs.next();
+				getLeavetypeId=rs.getString("leavetype_id");
+				
+				/*
+				String st1="select leavedetail_id from leave_detail";
+				rs=cn.selectquery(st1);
+				String lastvalue;
+				if(rs.last())
+				{
+					lastvalue=rs.getString("leavedetail_id");
+				}
+				alert(lastvalue+" Last Value ..");*/
+				//int temp=Integer.parseInt(lastvalue);
+				//temp++;
+				//alert(temp);
+				String strInsert="INSERT INTO `webportal`.`leave_detail` ( `emp_id`, `leavetype_id`, `leave_reason`, `leave_permission`, `leave_start_date`, `leave_end_date`, `total_leave_days`) VALUES ('" + session.getAttribute("emp_id").toString() + "', '"+getLeavetypeId+"', '"+strLeaveReason+"', "+strLeavePermission+", '"+sdate+"', '"+edate+"',"+diffdays+" )";
+				//alert(strInsert);
+				cn.insertquery(strInsert);
+				alert("Your request has been submitted successfully ..Wait for Reply");
+			}
+			catch(Exception e)
+			{
+			}
+			
+				//	String strStartDate=dtLeavesdate.getValue().toString();
+		//	String strEndDate=dtLeaveedate.getValue().toString();
+		/*	
+			alert(getLeavetypeId);
+			alert(strLeavePermission);
+			alert(startdate);
+			alert(enddate);
+			alert(diffdays);
+		*/
+		}
+		public void doOK(){
+			doSubmit();
+		}
+		Constraint cpc = new Constraint() {
+	    	public void validate(Component comp, Object value) throws WrongValueException {
+		       	if (!Objects.equals(cpa.getValue().toLowerCase(),((String)value).toLowerCase())){
+					throw new WrongValueException(comp, "Wrong captcha !! Click on captcha to refresh new one");
+		    	}
+	    	}
+	 	};
+		
+		]]></zscript>
+		<div>
+			<grid>
+				<rows>
+					<row>
+						Leave Type :
+						<combobox id="chkleavetype" width="200px" onOpen="checkLeaveType()"></combobox>
+						<zscript><![CDATA[
+		                  import java.sql.*;
+		                  import connection.queryclass;;
+		                  
+						  void checkLeaveType () {
+						  queryclass obj=new queryclass();
+						  ResultSet rs=null;
+						  try
+						  {
+						  		String str1 = "SELECT * FROM leave_master";
+			         			rs=  obj.selectquery(str1);
+			         			chkleavetype.getItems().clear();
+				 				while(rs.next())
+	               				{
+	            	           		chkleavetype.appendItem(rs.getString("leavetype"));
+	            	           	}
+	          			   }
+	          			   catch(Exception e)
+	          			   {
+	          			   }
+						  }
+						]]></zscript>
+					</row>
+					<row>
+						Leave Reason :
+						<textbox id="txtlreason" width="200px" constraint="no empty" rows="3"/>
+					</row>
+					
+					<row>
+						Leave Start Date :
+						<vlayout>
+						<datebox id="dtLeavesdate" format="yyyy/MM/dd" mold="rounded" width="200px"/>
+						( yyyy/MM/dd )
+						</vlayout>
+					</row>
+					<row>
+						Leave End Date :
+						<vlayout>
+						<datebox id="dtLeaveedate" format="yyyy/MM/dd" mold="rounded" width="200px"  >  </datebox>
+						( yyyy/MM/dd )
+						</vlayout>
+					</row>
+					<row>
+						Total LeaveDays :
+						<textbox id="txtldays" constraint="no empty" readonly="true" >
+							<attribute name="onFocus">
+													int i=0;
+													DateTime startdate=new DateTime(dtLeavesdate.getValue());
+    												DateTime enddate=new DateTime(dtLeaveedate.getValue());
+    												Days d=Days.daysBetween(startdate,enddate);  			
+    												i=d.getDays();
+													txtldays.setValue(i.toString());
+							</attribute>
+						</textbox>
+					</row>
+					<row>
+						<captcha id="cpa" length="6" width="150px" onClick="cpa.randomValue()" if="${hasZkex}" 
+							height="50px" />
+						<textbox id="cpatb"  width="200px" constraint="${cpc}"/>	
+					</row>
+					
+				</rows>
+			</grid>			
+			<hbox pack="center" width="100%">
+				<button label="Submit" onClick="doSubmit()" sclass="classname"/>
+			</hbox>
+		</div>
+	</groupbox>
+</window>
+</zk>

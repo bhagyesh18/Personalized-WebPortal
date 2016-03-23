@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<window id="Win_edit" apply="webpart_package.edit_webpart_ctrl"
+		style="font-family:arial;margin-left:auto;margin-right:auto;width:20%;">
+		<groupbox mold="3d" closable="false">
+			<caption label="Edit Your Panels"></caption>
+			<style src="css/Buttoncss.css"></style>
+
+		
+<label id="lbl_username"></label>
+			<listbox>
+				<listhead>
+
+					<listheader label=" Status " width="60px"/>
+					<listheader label=" Panel name" />
+
+
+				</listhead>
+
+				<listitem>
+					<listcell>
+						<checkbox id="ch1" checked="true"></checkbox>
+					</listcell>
+					<listcell label=" Twitter " />
+				</listitem>
+
+				<listitem>
+					<listcell>
+						<checkbox id="ch2" checked="true"></checkbox>
+					</listcell>
+					<listcell label=" Wikipedia " />
+				</listitem>
+
+				<listitem>
+					<listcell>
+						<checkbox id="ch3" checked="true"></checkbox>
+					</listcell>
+					<listcell label=" Google Tools " />
+				</listitem>
+
+				<listitem>
+					<listcell>
+						<checkbox id="ch4" checked="true"></checkbox>
+					</listcell>
+					<listcell label="Linked In " />
+				</listitem>
+
+				<listitem>
+					<listcell>
+						<checkbox id="ch5" checked="true"></checkbox>
+					</listcell>
+					<listcell label=" Clock " />
+				</listitem>
+
+				<listitem>
+					<listcell>
+						<checkbox id="ch6" checked="true"></checkbox>
+					</listcell>
+					<listcell label=" Facebook " />
+				</listitem>
+
+
+				<listitem>
+					<listcell>
+						<checkbox id="ch7" checked="true"></checkbox>
+					</listcell>
+					<listcell label=" To Do Notes " />
+				</listitem>
+
+	
+
+			</listbox>
+			<button id="btnedit" label="Edit" sclass="classname"></button>
+			<button id="btncancel" label="Close" sclass="classname" onClick="doclose()"></button>
+			<zscript><![CDATA[
+	import org.zkoss.zul.Window;
+	import org.zkoss.zk.ui.Executions;
+	void doclose() {
+
+		Win_edit.detach();
+	}
+]]></zscript>
+		</groupbox>
+	</window></zk>

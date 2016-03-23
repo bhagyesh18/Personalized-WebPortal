@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<zk>
+   <window id='myWin' 
+        apply="grid_controller.ShowDailyReport" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+        <groupbox mold="3d" closable="false">
+        <caption label="Show Daily Reports"></caption>
+      <listbox id="listshowReport"
+            model="@{myWin$ShowDailyReport.ShowReports1}" mold="paging" pageSize="10">
+            <listhead sizable="true">
+                <listheader label="Employee Name"  />
+                <listheader label="Report Date"/>
+                <listheader label="Work Description" width="250px" />
+                <listheader label="Status"  />
+            </listhead>
+            
+      </listbox>
+  </groupbox>  </window>
+</zk>

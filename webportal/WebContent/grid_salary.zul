@@ -1,0 +1,76 @@
+<?page title="Grid Salary" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<window   width="90%" style="font-family:arial;margin-left:auto;margin-right:auto;width:70%;">
+	<groupbox mold="3d" closable="false">
+	<caption label="Employee Salary Detail"></caption>
+	<zscript>
+		<![CDATA[
+		         
+			import java.sql.*;
+			import connection.*;
+			import grid.salary;
+			ResultSet rs;
+			
+			queryclass q1=new queryclass();
+						
+			String str="SELECT * FROM webportal.salary where emp_id='"+ session.getAttribute("emp_id")+"';";
+			
+			rs=q1.selectquery(str);
+			List salary=new ArrayList();
+			
+			while(rs.next())
+			{
+				salary sa=new salary();
+				sa.setSalary_id(rs.getString("salary_id"));
+				sa.setEmp_id(rs.getString("emp_id"));
+				sa.setMonth(rs.getString("month"));
+				sa.setYear(rs.getString("year"));
+				sa.setBasic_salary(rs.getString("basic_salary"));
+				sa.setDa(rs.getString("Da"));
+				sa.setHRA(rs.getString("HRA"));
+				sa.setPF(rs.getString("PF"));
+				sa.setDeduction(rs.getString("Gross_salary"));
+				sa.setGross_salary(rs.getString("deduction"));
+				sa.setNet_salary(rs.getString("net_salary"));
+				
+				salary.add(sa);
+			}
+			
+			
+			
+		]]>
+	</zscript>
+	<listbox model="@{salary}" id="ls" mold="paging" pageSize="12">
+		<listhead>
+			
+			<listheader label="Salary Id"/>
+			<listheader label="Emp Id"/>
+			<listheader label="Month"/>
+			<listheader label="Year"/>
+			<listheader label="Basic Salary"/>
+			<listheader label="Da"/>
+			<listheader label="HRA"/>
+			<listheader label="Pf"/>
+			<listheader label="Deduction"/>
+			<listheader label="Gross Salary"/>
+			<listheader label="Net Salary"/>
+			
+		</listhead>
+		<listitem self="@{each='salary'}" id="lm" >
+		
+			<listcell label="@{salary.salary_id}" />
+			<listcell label="@{salary.emp_id}" />
+			<listcell label="@{salary.month}" />
+			<listcell label="@{salary.year}" />
+			<listcell label="@{salary.basic_salary}" />
+			<listcell label="@{salary.Da}" />
+			<listcell label="@{salary.HRA}" />
+			<listcell label="@{salary.PF}" />
+			<listcell label="@{salary.Gross_salary}" />
+			<listcell label="@{salary.deduction}" />
+			<listcell label="@{salary.net_salary}" />
+		</listitem>
+	</listbox>
+	</groupbox>
+</window>

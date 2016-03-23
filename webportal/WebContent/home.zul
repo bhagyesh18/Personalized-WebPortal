@@ -1,0 +1,284 @@
+<zk>
+<style>
+	 .windowStyle .z-window-embedded-cnt, 
+	              .z-window-embedded-body, 
+	              .z-window-overlapped-body, 
+	              .z-window-popup-body, 
+	              .z-window-highlighted-body, 
+	              .z-window-modal-body{
+	 	overflow:auto;
+	 }</style>
+	 
+	<window id="main" width="100%" height="250%" sclass="windowStyle" contentStyle="overflow:auto"
+		apply="homepage.homesession" style="font-family:arial;" >
+		<style>
+			.z-east, .z-north, .z-west, .z-center, .z-south {
+			background-image: url("images/home-background/img4.jpg"); }
+		</style>
+		<style src="css/Buttoncss.css"></style>
+		<borderlayout >
+			<north size="390px" collapsible="true" border="none"
+				splittable="true" flex="true"
+				style="font-family:arial;color:#79bbff">
+
+				<div>
+					<div
+						style="margin-left:auto;margin-right:auto;width:70%;">
+						
+						<hbox spacing="9px" width="100%"
+							align="center">
+							<button label=" Home " sclass="classname" />
+							<button label=" Services "
+								sclass="classname" />
+							<button label=" Technology "
+								sclass="classname" />
+							<button label=" Career " sclass="classname" />
+							<button label=" Contact Us "
+								sclass="classname" />
+							<button label=" Locate Us "
+								sclass="classname" />
+							<button label="Feedback" sclass="classname" />
+							<button id="btnjobs" label="Jobs"
+								sclass="classname" />
+							<div style="position:absolute;right:0px;">
+								<vbox >
+									<button id="initBtn"
+										sclass="classname" />
+									<vbox style="background-color:gray">
+									<label id="lblusername"></label>
+									<label id="lbluser_id"></label>
+									<label id="lbluser_role"></label>
+									<label id="lblemp_id"></label></vbox>
+								</vbox>
+								<a onClick="doforgotpass()">
+									Forgot Password
+								</a>
+							</div>
+						</hbox>
+						
+          		</div>
+					<hbox width="100%">
+						<flash src="myalbum.swf" height="300"
+							width="1300" draggable="true" />
+
+
+
+					</hbox>
+					<zscript><![CDATA[
+	import org.zkoss.zul.Window;
+	import org.zkoss.zk.ui.Executions;
+	void doforgotpass() {
+
+		Window window = (Window) Executions.createComponents(
+				"forgot_password.zul", null, null);
+		window.doHighlighted();
+	}
+]]></zscript>
+
+					<vlayout xmlns:c="client">
+						<window id="loginWin" title="Login"
+							width="600px" visible="false" minimizable="true"
+							onOK="loginCheck()" border='normal'>
+							<attribute name="onMinimize"><![CDATA[
+	if (self.isMinimized())
+		Clients.evalJavaScript("loginSucess("
+				+ event.getLeft().replace("px", "") + ","
+				+ event.getTop().replace("px", "") + ")");
+]]></attribute>
+
+<groupbox><caption label="Login"></caption>
+<hbox> <div>
+							<style>
+								div.minimize { border: 1px solid
+								#79858E; background: #D3E1EC; position:
+								absolute; opacity: 0.8; } div.loginGrid
+								{ border: none; } td.loginCtl {
+								text-align: center; } td.loginCtl
+								.z-label { color: red; font-style:
+								italic; }
+							</style>
+							<grid sclass="loginGrid" width="300px">
+								<columns>
+									<column width="100px" />
+								</columns>
+								<rows>
+									<row>
+										User Name :
+										<textbox id="name"
+											value="bhagyesh" c:onFocus="this.select()" />
+									</row>
+									<row>
+										Password :
+										<textbox id="pwd" value="123"
+											type="password" c:onFocus="this.select()" />
+									</row>
+									<row>
+										<cell sclass="loginCtl"
+											colspan="2">
+											<vlayout>
+												<button label="Submit"
+													onClick="loginCheck()" width="100px" sclass="classname" />
+												<label id="mesg" />
+											</vlayout>
+										</cell>
+									</row>
+								</rows>
+							</grid>
+							<zscript><![CDATA[
+	import java.sql.*;
+	import connection.queryclass;
+	import homepage.*;
+	void loginCheck() {
+
+		queryclass obj = new queryclass();
+
+		String str1 = "SELECT * FROM user_master where username='"
+				+ name.getValue().toString() + "' and password='"
+				+ pwd.getValue().toString() + "' ";
+		try {
+
+			ResultSet rs = obj.selectquery(str1);
+			if (rs.next()) {
+				mesg.setValue("");
+				Clients.evalJavaScript("zk.Widget.$('$loginWin').setMinimized(true)");
+				Sessions.getCurrent().setAttribute("name", name.getValue()); // save user-object in session
+				applicationScope.put("Name", name.getValue());
+				session.setAttribute("username", name.getValue());
+				session.setAttribute("user_id", rs.getString("user_id"));
+				session.setAttribute("user_name", rs.getString("username"));
+				session.setAttribute("password", rs.getString("password"));
+				session.setAttribute("user_role_id",
+						rs.getString("user_role_id"));
+
+				if (rs.getString("user_role_id").equals("3")) {
+
+					session.setAttribute("user_role", "EMPLOYEE");
+
+					try {
+						queryclass empobj = new queryclass();
+						ResultSet rs1 = empobj
+								.selectquery("select * from employee where user_id='"
+										+ rs.getString("user_id") + "';");
+						if (rs1.next()) {
+
+							session.setAttribute("emp_id",
+									rs1.getString("emp_id"));
+
+						}
+					} catch (Exception e) {
+
+					}
+				} else if (rs.getString("user_role_id").equals("2")) {
+					session.setAttribute("user_role", "HR");
+
+				} else if (rs.getString("user_role_id").equals("1")) {
+					session.setAttribute("user_role", "ADMIN");
+
+				}
+
+				initBtn.getParent().appendChild(
+						new Label("Login Success !! Welcome to ZK Demo!"
+								+ Sessions.getCurrent().getAttribute("name")));
+				Executions.sendRedirect("Hrpage.zul"); // redirect to index		
+			} else {
+				mesg.setValue("User Name or Password Invalid!");
+				Clients.evalJavaScript("loginFaild()");
+			}
+
+		} catch (Exception e) {
+
+		}
+
+	}
+]]></zscript>
+						</div>
+						<image src="/images/login/Log-in.jpg" width="200px"> </image>
+						
+						</hbox></groupbox></window>
+						<script type="text/javascript"
+							src="/widgets/effects/login_effect/jquery-ui-1.8.6.custom.min.js" />
+						<script type="text/javascript"
+							src="/widgets/effects/login_effect/customized_effect.js" />
+					</vlayout>
+				
+
+ 
+				
+				</div>
+			
+			</north>
+			<west id="west_links" size="200px" splittable="true" flex="true"
+				collapsible="true" title="Quik Links"
+				style="font-family:arial;color:#0C7A9A">
+
+				<div height="200px" align="center">
+					<fisheyebar id="fsb"
+						style="position:right; margin:5px 25px;color:red;"
+						attachEdge="Center" orient="vertical" itemWidth="65"
+						itemHeight="65" itemMaxHeight="110" itemMaxWidth="110">
+						<fisheye id="home_fish" label="Home"
+							image="/images/home-fisher/home48x48.png" />
+						<fisheye id="services_fish" label="services"
+							image="/images/home-fisher/services48x48.png" />
+						<fisheye id="technology_fish" label="Technology"
+							image="/images/home-fisher/technology48x48.png" />
+						<fisheye id="career_fish" label="Careers"
+							image="/images/home-fisher/career48x48.png" />
+						<fisheye id="contact_us_fish" label="Contact us"
+							image="/images/home-fisher/contact48x48.png" />
+						<fisheye id="locate_us_fish" label="Locate us"
+							image="/images/home-fisher/location48x48.png" />
+						<fisheye id="mail_us_fish" label="Mail us"
+							image="/images/home-fisher/mailus48x48.png" />
+						<fisheye id="feedback_fish" label="Feedback"
+							image="/images/home-fisher/feedback48x48.png" />
+
+					</fisheyebar>
+					
+					
+					 <separator bar="true" orient="vertical"/>
+					
+					<groupbox><caption label="Facebook Likes" style="color:#0C7A9A"></caption>
+														<html>
+									<div id="fb-root"></div>
+									<script>(function(d, s, id) {
+									  var js, fjs = d.getElementsByTagName(s)[0];
+									  if (d.getElementById(id)) return;
+									  js = d.createElement(s); js.id = id;
+									  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+									  fjs.parentNode.insertBefore(js, fjs);
+									}(document, 'script', 'facebook-jssdk'));</script>
+									<div class="fb-like" data-href="http://www.facebook.com/pages/BT-ITStream-Soltuion/269999226455868" data-send="true" data-width="100" data-show-faces="true" data-font="arial"></div>
+									</html></groupbox>
+				</div>
+				
+			</west>
+			<center id="webpartarea"
+				style="font-family:arial;color:#B8D335"  >
+				<div id="nav" >
+					<include id="include_center" src="webparts.zul" height="200%"  />
+				</div>
+			</center>
+			<south size="80px">
+				<hbox pack="center" width="100%">
+					<fisheyebar id="fish_social"
+						style="color:red;"
+						attachEdge="Center" orient="horizontal" itemWidth="45"
+						itemHeight="45" itemMaxHeight="65" itemMaxWidth="65">
+						<fisheye id="fb_eye" label="Home"
+							image="/images/home_footer/facebook.png"/>
+						<fisheye id="twwiter_eye" label="services"
+							image="/images/home_footer/twitter.png" />
+						<fisheye id="linkedin_eye" label="Technology"
+							image="/images/home_footer/linkedin.png" />
+						<fisheye id="google_plus_eye" label="Careers"
+							image="/images/home_footer/google_plus.png" />
+						
+					</fisheyebar>	
+				</hbox>
+				
+				
+			</south>
+		</borderlayout>
+	</window>
+</zk>
