@@ -5,11 +5,11 @@ Overview |
 The main objective of developing this web portal is to provide user wise personalized and dynamic GUI for managing employee, tasks, leaves, news feed of the company.
 
 
-Platform:	Windows
-Front End: ZK Framework 1.0.2 (Java)
-Back End:	MySQL 5.5.25a 
-Tools	Eclipse: Helios 1.8.1 , Plug-in: Zk 
-Framework: Support	ZK Framework 1.0.2 
+* Platform:	Windows
+* Front End: ZK Framework 1.0.2 (Java)
+* Back End:	MySQL 5.5.25a 
+* Tools	Eclipse: Helios 1.8.1 , Plug-in: Zk 
+* Framework: Support	ZK Framework 1.0.2 
 
 
 There are basically four users roles works over system :
